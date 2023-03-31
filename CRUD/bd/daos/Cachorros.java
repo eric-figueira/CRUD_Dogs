@@ -44,7 +44,7 @@ public class Cachorros {
             BDSQLServer.COMANDO.setString(2, cachorro.getRaca());
             BDSQLServer.COMANDO.setInt(3, cachorro.getIdade());
             BDSQLServer.COMANDO.setFloat(4, cachorro.getPeso());
-            BDSQLServer.COMANDO.setString(5, cachorro.Porte());
+            BDSQLServer.COMANDO.setString(5, cachorro.getPorte());
             BDSQLServer.COMANDO.setString(6, cachorro.getCor());
             BDSQLServer.COMANDO.setString(7, cachorro.getDono());
             BDSQLServer.COMANDO.setString(8, cachorro.getCep());
@@ -73,7 +73,7 @@ public class Cachorros {
             BDSQLServer.COMANDO.setString(2, cachorro.getRaca());
             BDSQLServer.COMANDO.setInt(3, cachorro.getIdade());
             BDSQLServer.COMANDO.setFloat(4, cachorro.getPeso());
-            BDSQLServer.COMANDO.setString(5, cachorro.Porte());
+            BDSQLServer.COMANDO.setString(5, cachorro.getPorte());
             BDSQLServer.COMANDO.setString(6, cachorro.getCor());
             BDSQLServer.COMANDO.setString(7, cachorro.getDono());
             BDSQLServer.COMANDO.setString(8, cachorro.getCep());
@@ -125,13 +125,13 @@ public class Cachorros {
             cachorro = new Cachorro(idCachorro,
                     resultado.getString("nome"),
                     resultado.getString("raca"),
-                    resultado.getInt("idade"),
+                    resultado.getShort("idade"),
                     resultado.getFloat("peso"),
                     resultado.getString("porte"),
                     resultado.getString("cor"),
                     resultado.getString("dono"),
                     resultado.getString("cep"),
-                    resultado.getString("numeroCasa"));
+                    resultado.getShort("numeroCasa"));
         }
         catch (SQLException erro) {
             throw new Exception("ERRO AO BUSCAR POR CACHORRO! AAAAAA");
@@ -166,13 +166,13 @@ public class Cachorros {
                     resultado.getInt("id"),
                     resultado.getString("nome"),
                     resultado.getString("raca"),
-                    resultado.getInt("idade"),
+                    resultado.getShort("idade"),
                     resultado.getFloat("peso"),
                     resultado.getString("porte"),
                     resultado.getString("cor"),
                     resultado.getString("dono"),
                     resultado.getString("cep"),
-                    resultado.getString("numeroCasa"));
+                    resultado.getShort("numeroCasa"));
                 lista.add(cachorro);
             }
         }
