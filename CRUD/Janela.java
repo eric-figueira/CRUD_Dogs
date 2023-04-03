@@ -155,7 +155,30 @@ public class Janela extends JFrame {
             txtIdCachorro.setEditable(false);
             btnBuscar.setEnabled(false);
             btnDeletar.setEnabled(false);
+
+            if (operacaoAtual == Operacao.INSERINDO)
+                btnAtualizar.setEnabled(false);
+            else if (operacaoAtual == Operacao.ATUALIZANDO)
+                btnInserir.setEnabled(false);
+        }
+
+        if (operacaoAtual == Operacao.BUSCANDO || operacaoAtual == Operacao.DELETANDO) {
+            txtNomeCachorro.setEditable(false);
+            txtRaca.setEditable(false);
+            txtPorte.setEditable(false);
+            txtCor.setEditable(false);
+            txtNomeDono.setEditable(false);
+            txtCep.setEditable(false);
+            txtIdadeCachorro.setEditable(false);
+            txtNumeroCasa.setEditable(false);
+            txtPeso.setEditable(false);
+
+            if (operacaoAtual == Operacao.DELETANDO)
+                txtIdCachorro.setEditable(false);
+
             btnAtualizar.setEnabled(false);
+            btnInserir.setEnabled(false);
+            
         }
     }
 
