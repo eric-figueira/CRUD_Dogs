@@ -48,5 +48,74 @@ public class Janela extends JFrame {
         super("CRUD Cachorros");
 
 
+        // JPanel geral onde todos os outros JPanel vão estar
+        JPanel Cachorro = new JPanel();
+        GridLayout grdCachorro = new GridLayout(4, 1);
+        Cachorro.setLayout(grdCachorro);
+
+
+            // Navbar onde vão ficar os botões CRUD
+            JPanel navBotoes = new JPanel();
+            FlowLayout flwBotoes = new FlowLayout();
+            navBotoes.setLayout(flwBotoes);
+
+            navBotoes.add(btnInserir);
+            navBotoes.add(btnBuscar);
+            navBotoes.add(btnAtualizar);
+            navBotoes.add(btnDeletar);
+
+
+            // Navbar onde vão ficar os botões Anterior e Próximo Cachorro
+            JPanel navProxAnt = new JPanel();
+            FlowLayout flwProxAnt = new FlowLayout();
+            navProxAnt.setLayout(flwProxAnt);
+
+            navProxAnt.add(btnAnterior);
+            navProxAnt.add(btnProximo);
+
+
+            // Grid onde vão ficar os labels e textboxes do Cachorro
+            JPanel dgCachorro = new JPanel();
+            GridLayout grdInfoCachorro = new GridLayout(10 , 2);
+            dgCachorro.setLayout(grdInfoCachorro);
+
+            // [label, textbox]
+            dgCachorro.add(lbIdCachorro);
+            dgCachorro.add(txtIdCachorro);
+
+            dgCachorro.add(lbNomeCachorro);
+            dgCachorro.add(txtNomeCachorro);
+
+            dgCachorro.add(lbRaca);
+            dgCachorro.add(txtRaca);
+
+            dgCachorro.add(lbPorte);
+            dgCachorro.add(txtPorte);
+
+            dgCachorro.add(lbCor);
+            dgCachorro.add(txtCor);
+
+            dgCachorro.add(lbNomeDono);
+            dgCachorro.add(txtNomeDono);
+
+            dgCachorro.add(lbCep);
+            dgCachorro.add(txtCep);
+
+            dgCachorro.add(lbIdadeCachorro);
+            dgCachorro.add(txtIdadeCachorro);
+
+            dgCachorro.add(lbNumeroCasa);
+            dgCachorro.add(txtNumeroCasa);
+
+            dgCachorro.add(lbPeso);
+            dgCachorro.add(txtPeso);
+
+
+
+        Cachorro.add(lbTitulo);
+        Cachorro.add(navBotoes);
+        Cachorro.add(navProxAnt);
+        Cachorro.add(dgCachorro);
+
     }
 }
