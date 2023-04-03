@@ -9,6 +9,11 @@ import java.util.*;
 
 public class Janela extends JFrame {
 
+    protected enum Operacao {
+        INSERINDO, DELETANDO, ATUALIZANDO, BUSCANDO, NAVEGANDO
+    }
+    protected Operacao operacaoAtual;
+
     // Labels
     protected JLabel lbTitulo        = new JLabel("CRUD Cachorros"),
                      lbIdCachorro    = new JLabel("Id Cachorro"),
@@ -29,6 +34,7 @@ public class Janela extends JFrame {
                       btnDeletar   = new JButton("Deletar"),
                       btnAtualizar = new JButton("Atualizar"),
                       btnSalvar    = new JButton("Salvar"),
+                      btnCancelar  = new JButton("Cancelar"),
                       btnProximo   = new JButton(">"),
                       btnAnterior  = new JButton("<");
 
@@ -110,9 +116,10 @@ public class Janela extends JFrame {
         ctnForm.setLayout(new BorderLayout());
 
         JPanel dgBottom = new JPanel();
-        dgBottom.setLayout(new GridLayout(2, 0));
+        dgBottom.setLayout(new GridLayout(2, 2));
 
         dgBottom.add(btnSalvar);
+        dgBottom.add(btnCancelar);
         dgBottom.add(lbMensagem);
 
         ctnForm.add(navBotoes, BorderLayout.NORTH);
@@ -121,5 +128,41 @@ public class Janela extends JFrame {
 
         this.setSize(450, 500);
         this.setVisible(true);
+    }
+
+    private void ConfigurarBotoes() {
+        txtIdCachorro.setEditable(true);
+        txtNomeCachorro.setEditable(true);
+        txtRaca.setEditable(true);
+        txtPorte.setEditable(true);
+        txtCor.setEditable(true);
+        txtNomeDono.setEditable(true);
+        txtCep.setEditable(true);
+        txtIdadeCachorro.setEditable(true);
+        txtNumeroCasa.setEditable(true);
+        txtPeso.setEditable(true);
+
+        btnInserir.setEnabled(true);
+        btnBuscar.setEnabled(true);
+        btnDeletar.setEnabled(true);
+        btnAtualizar.setEnabled(true);
+        btnSalvar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+        btnProximo.setEnabled(false);
+        btnAnterior.setEnabled(false);
+
+        if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
+            txtIdCachorro.setEditable(false);
+            btnBuscar.setEnabled(false);
+            btnDeletar.setEnabled(false);
+            btnAtualizar.setEnabled(false);
+        }
+    }
+
+    protected class Insercao implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            operacaoAtual = Operacao.INSERINDO;
+
+        }
     }
 }
