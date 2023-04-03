@@ -20,7 +20,8 @@ public class Janela extends JFrame {
                      lbCep           = new JLabel("CEP"),
                      lbIdadeCachorro = new JLabel("Idade do Cachorro"),
                      lbNumeroCasa    = new JLabel("Número Casa"),
-                     lbPeso          = new JLabel("Peso do Cachorro");
+                     lbPeso          = new JLabel("Peso do Cachorro"),
+                     lbMensagem      = new JLabel("Mensagem: ");
 
     // Botões
     protected JButton btnInserir   = new JButton("Inserir"),
@@ -48,36 +49,28 @@ public class Janela extends JFrame {
         super("CRUD Cachorros");
 
 
+        // Navbar onde vão ficar os botões CRUD
+        JPanel navBotoes = new JPanel();
+        FlowLayout flwBotoes = new FlowLayout();
+        navBotoes.setLayout(flwBotoes);
+
+        navBotoes.add(btnInserir);
+        navBotoes.add(btnBuscar);
+        navBotoes.add(btnAtualizar);
+        navBotoes.add(btnDeletar);
+
+
         // JPanel geral onde todos os outros JPanel vão estar
         JPanel Cachorro = new JPanel();
-        GridLayout grdCachorro = new GridLayout(4, 1);
-        Cachorro.setLayout(grdCachorro);
-
-
-            // Navbar onde vão ficar os botões CRUD
-            JPanel navBotoes = new JPanel();
-            FlowLayout flwBotoes = new FlowLayout();
-            navBotoes.setLayout(flwBotoes);
-
-            navBotoes.add(btnInserir);
-            navBotoes.add(btnBuscar);
-            navBotoes.add(btnAtualizar);
-            navBotoes.add(btnDeletar);
-
-
-            // Navbar onde vão ficar os botões Anterior e Próximo Cachorro
-            JPanel navProxAnt = new JPanel();
-            FlowLayout flwProxAnt = new FlowLayout();
-            navProxAnt.setLayout(flwProxAnt);
-
-            navProxAnt.add(btnAnterior);
-            navProxAnt.add(btnProximo);
-
+        Cachorro.setLayout(new GridLayout(1, 1));
 
             // Grid onde vão ficar os labels e textboxes do Cachorro
             JPanel dgCachorro = new JPanel();
-            GridLayout grdInfoCachorro = new GridLayout(10 , 2);
+            GridLayout grdInfoCachorro = new GridLayout(11 , 2);
             dgCachorro.setLayout(grdInfoCachorro);
+
+            dgCachorro.add(btnAnterior);
+            dgCachorro.add(btnProximo);
 
             // [label, textbox]
             dgCachorro.add(lbIdCachorro);
@@ -111,11 +104,22 @@ public class Janela extends JFrame {
             dgCachorro.add(txtPeso);
 
 
-
-        Cachorro.add(lbTitulo);
-        Cachorro.add(navBotoes);
-        Cachorro.add(navProxAnt);
         Cachorro.add(dgCachorro);
 
+        Container ctnForm = this.getContentPane();
+        ctnForm.setLayout(new BorderLayout());
+
+        JPanel dgBottom = new JPanel();
+        dgBottom.setLayout(new GridLayout(2, 0));
+
+        dgBottom.add(btnSalvar);
+        dgBottom.add(lbMensagem);
+
+        ctnForm.add(navBotoes, BorderLayout.NORTH);
+        ctnForm.add(Cachorro, BorderLayout.CENTER);
+        ctnForm.add(dgBottom, BorderLayout.SOUTH);
+
+        this.setSize(450, 500);
+        this.setVisible(true);
     }
 }
