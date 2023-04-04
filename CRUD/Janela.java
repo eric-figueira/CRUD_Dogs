@@ -55,6 +55,17 @@ public class Janela extends JFrame {
         super("CRUD Cachorros");
 
 
+        // Setando tratadores de eventos para os botões
+        btnInserir.addActionListener(new Inserir());
+        btnAtualizar.addActionListener(new Atualizar());
+        btnBuscar.addActionListener(new Buscar());
+        btnDeletar.addActionListener(new Deletar());
+        //btnProximo.addActionListener(new PassarParaProximo());
+        //btnAnterior.addActionListener(new PassarParaAnterior());
+        //btnSalvar.addActionListener(new Salvar());
+        btnCancelar.addActionListener(new Cancelar());
+
+
         // Navbar onde vão ficar os botões CRUD
         JPanel navBotoes = new JPanel();
         FlowLayout flwBotoes = new FlowLayout();
@@ -126,44 +137,55 @@ public class Janela extends JFrame {
         ctnForm.add(Cachorro, BorderLayout.CENTER);
         ctnForm.add(dgBottom, BorderLayout.SOUTH);
 
+        // fazer get dos cachorros
+
+        this.operacaoAtual = Operacao.NAVEGANDO;
+
+        this.addWindowListener(new FechamentoDeJanela());
+
         this.setSize(450, 500);
         this.setVisible(true);
     }
 
     private void LimparCampos() {
-        txtIdCachorro.setText("");
-        txtNomeCachorro.setText("");
-        txtRaca.setText("");
-        txtPorte.setText("");
-        txtCor.setText("");
-        txtNomeDono.setText("");
-        txtCep.setText("");
+        txtIdCachorro   .setText("");
+        txtNomeCachorro .setText("");
+        txtRaca         .setText("");
+        txtPorte        .setText("");
+        txtCor          .setText("");
+        txtNomeDono     .setText("");
+        txtCep          .setText("");
         txtIdadeCachorro.setText("");
-        txtNumeroCasa.setText("");
-        txtPeso.setText("");
+        txtNumeroCasa   .setText("");
+        txtPeso         .setText("");
+    }
+
+    private void VerificarPosicaoCachorroEPreencherCampos() {
+        // Método que será responsável por ler a posição atual do cachorro e colocar seus dados nos campos
+        // além de testar se os botoes Proximo e Anterior deverão ser (des)habilitados
     }
 
     private void VerificarHabilitacaoControles() {
         // Habilitamos todos os controles para desabilitar nas situações oportunas
-        txtIdCachorro.setEditable(true);
-        txtNomeCachorro.setEditable(true);
-        txtRaca.setEditable(true);
-        txtPorte.setEditable(true);
-        txtCor.setEditable(true);
-        txtNomeDono.setEditable(true);
-        txtCep.setEditable(true);
+        txtIdCachorro   .setEditable(true);
+        txtNomeCachorro .setEditable(true);
+        txtRaca         .setEditable(true);
+        txtPorte        .setEditable(true);
+        txtCor          .setEditable(true);
+        txtNomeDono     .setEditable(true);
+        txtCep          .setEditable(true);
         txtIdadeCachorro.setEditable(true);
-        txtNumeroCasa.setEditable(true);
-        txtPeso.setEditable(true);
+        txtNumeroCasa   .setEditable(true);
+        txtPeso         .setEditable(true);
 
-        btnInserir.setEnabled(true);
-        btnBuscar.setEnabled(true);
-        btnDeletar.setEnabled(true);
+        btnInserir  .setEnabled(true);
+        btnBuscar   .setEnabled(true);
+        btnDeletar  .setEnabled(true);
         btnAtualizar.setEnabled(true);
-        btnSalvar.setEnabled(true);
-        btnCancelar.setEnabled(true);
-        btnProximo.setEnabled(false); // ?
-        btnAnterior.setEnabled(false);
+        btnSalvar   .setEnabled(true);
+        btnCancelar .setEnabled(true);
+        btnProximo  .setEnabled(false); // true ou false?
+        btnAnterior .setEnabled(false);
 
         btnSalvar.setText("Salvar"); // Setamos para o texto padrão
         lbMensagem.setText("Mensagem: "); // Setamos para a mensagem padrão
@@ -173,9 +195,9 @@ public class Janela extends JFrame {
         {
             // Isso não é condicional, pois em qualquer operação que não seja Navegar os botões estarão desabilitados
             // pois o usuário já erá clicado em algum deles
-            btnInserir.setEnabled(false);
-            btnBuscar.setEnabled(false);
-            btnDeletar.setEnabled(false);
+            btnInserir  .setEnabled(false);
+            btnBuscar   .setEnabled(false);
+            btnDeletar  .setEnabled(false);
             btnAtualizar.setEnabled(false);
 
 
@@ -187,40 +209,79 @@ public class Janela extends JFrame {
                 // botões já estarão desabilitados
 
                 if (this.operacaoAtual == Operacao.INSERINDO) {
-                    this.LimparCampos();
                     btnSalvar.setText("Inserir");
                     lbMensagem.setText("Mensagem: Digite os dados e clique em Inserir. Ou clique em Cancelar para cancelar a operação");
-                } else {
+                }
+                else {
                     btnSalvar.setText("Atualizar");
                     lbMensagem.setText("Mensagem: Digite os dados e clique em Atualizar. Ou clique em Cancelar para cancelar a operação");
                 }
 
             } else if (this.operacaoAtual == Operacao.BUSCANDO || this.operacaoAtual == Operacao.DELETANDO) {
-                // Digitará apenas o IdCachorro, o resto estará desabilitado para digitar
-                txtNomeCachorro.setEditable(false);
-                txtRaca.setEditable(false);
-                txtPorte.setEditable(false);
-                txtCor.setEditable(false);
-                txtNomeDono.setEditable(false);
-                txtCep.setEditable(false);
+                // Digitará apenas o IdCachorro (na Busca), o resto estará desabilitado para digitar
+                txtNomeCachorro .setEditable(false);
+                txtRaca         .setEditable(false);
+                txtPorte        .setEditable(false);
+                txtCor          .setEditable(false);
+                txtNomeDono     .setEditable(false);
+                txtCep          .setEditable(false);
                 txtIdadeCachorro.setEditable(false);
-                txtNumeroCasa.setEditable(false);
-                txtPeso.setEditable(false);
+                txtNumeroCasa   .setEditable(false);
+                txtPeso         .setEditable(false);
 
                 if (this.operacaoAtual == Operacao.BUSCANDO) {
                     btnSalvar.setText("Buscar");
                     lbMensagem.setText("Mensagem: Digite o Id e clique em Buscar. Ou clique em Cancelar para cancelar a operação");
                 }
+                else {
+                    txtIdCachorro.setEditable(false);
+                    btnSalvar.setText("Deletar");
+                    lbMensagem.setText("Mensagem: Clique em Deletar para confirmar deleção. Ou clique em Cancelar para cancelar a operação");
+                }
             }
         }
-            // Para o deletar, vai fazer ele apenas clicar em deletar ou vai ter que digitar o id
             // Aqui teria algo para o Navegando?
     }
 
-    protected class Insercao implements ActionListener {
+
+    protected class FechamentoDeJanela extends WindowAdapter {
+        public void windowClosing(WindowEvent e) {
+            System.exit(0);
+        }
+    }
+
+    protected class Inserir implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             operacaoAtual = Operacao.INSERINDO;
+            VerificarHabilitacaoControles();
+        }
+    }
 
+    protected class Atualizar implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            operacaoAtual = Operacao.ATUALIZANDO;
+            VerificarHabilitacaoControles();
+        }
+    }
+
+    protected class Buscar implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            operacaoAtual = Operacao.BUSCANDO;
+            VerificarHabilitacaoControles();
+        }
+    }
+
+    protected class Deletar implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            operacaoAtual = Operacao.DELETANDO;
+            VerificarHabilitacaoControles();
+        }
+    }
+
+    protected class Cancelar implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            operacaoAtual = Operacao.NAVEGANDO;
+            VerificarHabilitacaoControles();
         }
     }
 }
