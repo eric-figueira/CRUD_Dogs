@@ -3,6 +3,9 @@ package CRUD;
 import CRUD.API.ClienteWS;
 import CRUD.API.Logradouro;
 
+import CRUD.bd.daos.Cachorros;
+import CRUD.bd.dbos.Cachorro;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -10,12 +13,17 @@ import javax.imageio.*;
 import java.io.*;
 import java.util.*;
 
+
 public class Janela extends JFrame {
 
     protected enum Operacao {
         INSERINDO, DELETANDO, ATUALIZANDO, BUSCANDO, NAVEGANDO
     }
     protected Operacao operacaoAtual;
+
+    // Lista de Cachorros
+    ArrayList<Cachorro> listaCachorros;
+    protected int posicaoCachorroAtual;
 
     // Labels
     protected JLabel lbTitulo        = new JLabel("CRUD Cachorros"),
@@ -56,24 +64,7 @@ public class Janela extends JFrame {
     // JList onde serão exibidos os dados do CEP
     protected JTextArea txtLogradouro = new JTextArea();
 
-    /*
-    * "complemento": "de 328 a 1810 - lado par",
-	"bairro": "Centro",
-	"cidade": "Campinas",
-	"logradouro": "Avenida Francisco Glic\u00e9rio",
-	"estado_info":
-	{
-		"area_km2": "248.221,996",
-		"codigo_ibge": "35",
-		"nome": "S\u00e3o Paulo"
-	},
-	"cidade_info":
-	{
-		"area_km2": "794,571",
-		"codigo_ibge": "3509502"
-	},
-	"estado": "SP"
-    * */
+
     public Logradouro retornarLogradouro(String cep) throws Exception {
         try {
             return (Logradouro) ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep/", cep);
@@ -176,7 +167,12 @@ public class Janela extends JFrame {
         ctnForm.add(Cachorro, BorderLayout.CENTER);
         ctnForm.add(dgBottom, BorderLayout.SOUTH);
 
-        // fazer get dos cachorros
+        // Fazer get dos cachorros e setar a posição para 0
+        try { this.listaCachorros = Cachorros.getArrayListCachorros(); }
+        catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
+        this.posicaoCachorroAtual = 0; // Nenhum cachorro na lista
+
+        this.VerificarPosicaoCachorroEPreencherCampos();
 
         this.operacaoAtual = Operacao.NAVEGANDO;
 
@@ -202,20 +198,42 @@ public class Janela extends JFrame {
     private void VerificarPosicaoCachorroEPreencherCampos() {
         // Método que será responsável por ler a posição atual do cachorro e colocar seus dados nos campos
         // além de testar se os botoes Proximo e Anterior deverão ser (des)habilitados
+
+        if (listaCachorros.isEmpty())
+        {
+            // Lista vazia, não pode navegar
+            btnProximo.setEnabled(false);
+            btnAnterior.setEnabled(false);
+            // Também não lemos nenhum dado
+        }
+        else
+        {
+            if (posicaoCachorroAtual == listaCachorros.size() - 1) {
+                // Se estiver na última posição, não pode ir para o próximo
+                btnProximo.setEnabled(false);
+            }
+            if (posicaoCachorroAtual == 0) {
+                // Se estiver na primeira posição, não pode ir para o anterior
+                btnAnterior.setEnabled(false);
+            }
+
+            // Pegar as informações do cachorro nessa posição
+
+        }
     }
 
     private void VerificarHabilitacaoControles() {
         // Habilitamos todos os controles para desabilitar nas situações oportunas
-        txtIdCachorro   .setEditable(true);
-        txtNomeCachorro .setEditable(true);
-        txtRaca         .setEditable(true);
-        txtPorte        .setEditable(true);
-        txtCor          .setEditable(true);
-        txtNomeDono     .setEditable(true);
+        txtIdCachorro   .setEditable(false);
+        txtNomeCachorro .setEditable(false);
+        txtRaca         .setEditable(false);
+        txtPorte        .setEditable(false);
+        txtCor          .setEditable(false);
+        txtNomeDono     .setEditable(false);
         txtCep          .setEditable(true);
-        txtIdadeCachorro.setEditable(true);
-        txtNumeroCasa   .setEditable(true);
-        txtPeso         .setEditable(true);
+        txtIdadeCachorro.setEditable(false);
+        txtNumeroCasa   .setEditable(false);
+        txtPeso         .setEditable(false);
 
         btnInserir  .setEnabled(true);
         btnBuscar   .setEnabled(true);
@@ -223,8 +241,8 @@ public class Janela extends JFrame {
         btnAtualizar.setEnabled(true);
         btnSalvar   .setEnabled(true);
         btnCancelar .setEnabled(true);
-        btnProximo  .setEnabled(false); // true ou false?
-        btnAnterior .setEnabled(false);
+        btnProximo  .setEnabled(true);
+        btnAnterior .setEnabled(true);
 
         btnSalvar.setText("Salvar"); // Setamos para o texto padrão
         lbMensagem.setText("Mensagem: "); // Setamos para a mensagem padrão
