@@ -1,0 +1,2 @@
+javac -classpath .;jackson-all-1.9.0.jar *.java
+java  -classpath .;jackson-all-1.9.0.jar Programa

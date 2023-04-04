@@ -1,0 +1,2 @@
+https://api.postmon.com.br/v1/cep/13012100?format=xml
+https://api.postmon.com.br/v1/cep/13012100
