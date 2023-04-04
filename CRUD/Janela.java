@@ -130,7 +130,21 @@ public class Janela extends JFrame {
         this.setVisible(true);
     }
 
-    private void ConfigurarBotoes() {
+    private void LimparCampos() {
+        txtIdCachorro.setText("");
+        txtNomeCachorro.setText("");
+        txtRaca.setText("");
+        txtPorte.setText("");
+        txtCor.setText("");
+        txtNomeDono.setText("");
+        txtCep.setText("");
+        txtIdadeCachorro.setText("");
+        txtNumeroCasa.setText("");
+        txtPeso.setText("");
+    }
+
+    private void VerificarHabilitacaoControles() {
+        // Habilitamos todos os controles para desabilitar nas situações oportunas
         txtIdCachorro.setEditable(true);
         txtNomeCachorro.setEditable(true);
         txtRaca.setEditable(true);
@@ -148,38 +162,59 @@ public class Janela extends JFrame {
         btnAtualizar.setEnabled(true);
         btnSalvar.setEnabled(true);
         btnCancelar.setEnabled(true);
-        btnProximo.setEnabled(false);
+        btnProximo.setEnabled(false); // ?
         btnAnterior.setEnabled(false);
 
-        if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
-            txtIdCachorro.setEditable(false);
+        btnSalvar.setText("Salvar"); // Setamos para o texto padrão
+        lbMensagem.setText("Mensagem: "); // Setamos para a mensagem padrão
+
+
+        if (this.operacaoAtual != Operacao.NAVEGANDO)
+        {
+            // Isso não é condicional, pois em qualquer operação que não seja Navegar os botões estarão desabilitados
+            // pois o usuário já erá clicado em algum deles
+            btnInserir.setEnabled(false);
             btnBuscar.setEnabled(false);
             btnDeletar.setEnabled(false);
+            btnAtualizar.setEnabled(false);
 
-            if (operacaoAtual == Operacao.INSERINDO)
-                btnAtualizar.setEnabled(false);
-            else if (operacaoAtual == Operacao.ATUALIZANDO)
-                btnInserir.setEnabled(false);
-        }
 
-        if (operacaoAtual == Operacao.BUSCANDO || operacaoAtual == Operacao.DELETANDO) {
-            txtNomeCachorro.setEditable(false);
-            txtRaca.setEditable(false);
-            txtPorte.setEditable(false);
-            txtCor.setEditable(false);
-            txtNomeDono.setEditable(false);
-            txtCep.setEditable(false);
-            txtIdadeCachorro.setEditable(false);
-            txtNumeroCasa.setEditable(false);
-            txtPeso.setEditable(false);
-
-            if (operacaoAtual == Operacao.DELETANDO)
+            if (this.operacaoAtual == Operacao.INSERINDO || this.operacaoAtual == Operacao.ATUALIZANDO) {
+                // Digitará tudo, menos o IdCachorro (nas duas operações)
                 txtIdCachorro.setEditable(false);
 
-            btnAtualizar.setEnabled(false);
-            btnInserir.setEnabled(false);
-            
+                // Para sair da operação de inserir ou atualizar, basta clicar no botão Cancelar, os outros
+                // botões já estarão desabilitados
+
+                if (this.operacaoAtual == Operacao.INSERINDO) {
+                    this.LimparCampos();
+                    btnSalvar.setText("Inserir");
+                    lbMensagem.setText("Mensagem: Digite os dados e clique em Inserir. Ou clique em Cancelar para cancelar a operação");
+                } else {
+                    btnSalvar.setText("Atualizar");
+                    lbMensagem.setText("Mensagem: Digite os dados e clique em Atualizar. Ou clique em Cancelar para cancelar a operação");
+                }
+
+            } else if (this.operacaoAtual == Operacao.BUSCANDO || this.operacaoAtual == Operacao.DELETANDO) {
+                // Digitará apenas o IdCachorro, o resto estará desabilitado para digitar
+                txtNomeCachorro.setEditable(false);
+                txtRaca.setEditable(false);
+                txtPorte.setEditable(false);
+                txtCor.setEditable(false);
+                txtNomeDono.setEditable(false);
+                txtCep.setEditable(false);
+                txtIdadeCachorro.setEditable(false);
+                txtNumeroCasa.setEditable(false);
+                txtPeso.setEditable(false);
+
+                if (this.operacaoAtual == Operacao.BUSCANDO) {
+                    btnSalvar.setText("Buscar");
+                    lbMensagem.setText("Mensagem: Digite o Id e clique em Buscar. Ou clique em Cancelar para cancelar a operação");
+                }
+            }
         }
+            // Para o deletar, vai fazer ele apenas clicar em deletar ou vai ter que digitar o id
+            // Aqui teria algo para o Navegando?
     }
 
     protected class Insercao implements ActionListener {
