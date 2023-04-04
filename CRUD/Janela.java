@@ -45,10 +45,34 @@ public class Janela extends JFrame {
                          txtPorte         = new JTextField(),
                          txtCor           = new JTextField(),
                          txtNomeDono      = new JTextField(),
-                         txtCep           = new JTextField(),
                          txtIdadeCachorro = new JTextField(),
-                         txtNumeroCasa    = new JTextField(),
-                         txtPeso          = new JTextField();
+                         txtPeso          = new JTextField(),
+                         txtCep           = new JTextField(),
+                         txtNumeroCasa    = new JTextField();
+
+    // JList onde serão exibidos os dados do CEP
+    protected JList<String> lbEndereco = new JList<>();
+
+    /*
+    * "complemento": "de 328 a 1810 - lado par",
+	"bairro": "Centro",
+	"cidade": "Campinas",
+	"logradouro": "Avenida Francisco Glic\u00e9rio",
+	"estado_info":
+	{
+		"area_km2": "248.221,996",
+		"codigo_ibge": "35",
+		"nome": "S\u00e3o Paulo"
+	},
+	"cidade_info":
+	{
+		"area_km2": "794,571",
+		"codigo_ibge": "3509502"
+	},
+	"estado": "SP"
+    * */
+
+
 
     public Janela() {
 
