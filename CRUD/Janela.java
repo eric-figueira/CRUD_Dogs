@@ -1,5 +1,8 @@
 package CRUD;
 
+import CRUD.API.ClienteWS;
+import CRUD.API.Logradouro;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -51,7 +54,7 @@ public class Janela extends JFrame {
                          txtNumeroCasa    = new JTextField();
 
     // JList onde serão exibidos os dados do CEP
-    protected JList<String> lbEndereco = new JList<>();
+    protected JTextArea txtLogradouro = new JTextArea();
 
     /*
     * "complemento": "de 328 a 1810 - lado par",
@@ -71,13 +74,22 @@ public class Janela extends JFrame {
 	},
 	"estado": "SP"
     * */
-
-
+    public Logradouro retornarLogradouro(String cep) throws Exception {
+        try {
+            return (Logradouro) ClienteWS.getObjeto(Logradouro.class, "https://api.postmon.com.br/v1/cep/", cep);
+        } catch (Exception ex) {
+            throw new Exception("ERRO AO RETORNAR LOGRADOURO!");
+        }
+    }
 
     public Janela() {
 
         super("CRUD Cachorros");
 
+        this.txtLogradouro.setEditable(false); // O usuário não poderá alterar os dados de endereço NUNCA
+        this.txtLogradouro.setLineWrap(true);
+        this.txtLogradouro.setFont(new Font("Courier New",
+                                            this.txtLogradouro.getFont().getStyle(), 18));
 
         // Setando tratadores de eventos para os botões
         btnInserir.addActionListener(new Inserir());
@@ -88,6 +100,7 @@ public class Janela extends JFrame {
         //btnAnterior.addActionListener(new PassarParaAnterior());
         //btnSalvar.addActionListener(new Salvar());
         btnCancelar.addActionListener(new Cancelar());
+        txtCep.addFocusListener(new MostrarLogradouro());
 
 
         // Navbar onde vão ficar os botões CRUD
@@ -103,10 +116,11 @@ public class Janela extends JFrame {
 
         // JPanel geral onde todos os outros JPanel vão estar
         JPanel Cachorro = new JPanel();
-        Cachorro.setLayout(new GridLayout(1, 1));
+        Cachorro.setLayout(new GridLayout(1, 2));
 
             // Grid onde vão ficar os labels e textboxes do Cachorro
             JPanel dgCachorro = new JPanel();
+
             GridLayout grdInfoCachorro = new GridLayout(11 , 2);
             dgCachorro.setLayout(grdInfoCachorro);
 
@@ -146,6 +160,7 @@ public class Janela extends JFrame {
 
 
         Cachorro.add(dgCachorro);
+        Cachorro.add(txtLogradouro);
 
         Container ctnForm = this.getContentPane();
         ctnForm.setLayout(new BorderLayout());
@@ -167,7 +182,7 @@ public class Janela extends JFrame {
 
         this.addWindowListener(new FechamentoDeJanela());
 
-        this.setSize(450, 500);
+        this.setSize(750, 500);
         this.setVisible(true);
     }
 
@@ -306,6 +321,22 @@ public class Janela extends JFrame {
         public void actionPerformed(ActionEvent e) {
             operacaoAtual = Operacao.NAVEGANDO;
             VerificarHabilitacaoControles();
+        }
+    }
+
+    protected class MostrarLogradouro extends FocusAdapter {
+        public void focusLost(FocusEvent e) {
+            if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
+                String cep = txtCep.getText();
+                try {
+                    Logradouro l = retornarLogradouro(cep);
+                    txtLogradouro.append(l.toString());
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(null,
+                            "Verifique se digitou o CEP corretamente ou se está conectado devidamente à rede",
+                            "ERRO AO RETORNAR LOGRADOURO!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }
 }

@@ -53,10 +53,10 @@ public class InfoEstado implements Cloneable
 
     public String toString ()
     {
-        return this.nome+
-               " / Codigo IBGE: "+
+        return "   • " + this.nome+
+               "\n   • Codigo IBGE: "+
                this.codigo_ibge+
-               " / Area(km2): "+
+               "\n   • Area(km2): "+
                this.area_km2;
     }
 

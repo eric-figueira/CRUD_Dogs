@@ -39,9 +39,9 @@ public class InfoCidade implements Cloneable
 
     public String toString ()
     {
-        return "Codigo IBGE: "+
+        return "   • Codigo IBGE: "+
                this.codigo_ibge+
-               " / Area(km2): "+
+               "\n   • Area(km2): "+
                this.area_km2;
     }
 
