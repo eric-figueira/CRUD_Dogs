@@ -87,8 +87,8 @@ public class Janela extends JFrame {
         btnAtualizar.addActionListener(new Atualizar());
         btnBuscar.addActionListener(new Buscar());
         btnDeletar.addActionListener(new Deletar());
-        //btnProximo.addActionListener(new PassarParaProximo());
-        //btnAnterior.addActionListener(new PassarParaAnterior());
+        btnProximo.addActionListener(new PassarParaProximo());
+        btnAnterior.addActionListener(new PassarParaAnterior());
         //btnSalvar.addActionListener(new Salvar());
         btnCancelar.addActionListener(new Cancelar());
         txtCep.addFocusListener(new MostrarLogradouro());
@@ -199,50 +199,72 @@ public class Janela extends JFrame {
         // Método que será responsável por ler a posição atual do cachorro e colocar seus dados nos campos
         // além de testar se os botoes Proximo e Anterior deverão ser (des)habilitados
 
-        if (listaCachorros.isEmpty())
-        {
-            // Lista vazia, não pode navegar
-            btnProximo.setEnabled(false);
-            btnAnterior.setEnabled(false);
-            // Também não lemos nenhum dado
-        }
-        else
-        {
-            if (posicaoCachorroAtual == listaCachorros.size() - 1) {
-                // Se estiver na última posição, não pode ir para o próximo
+        if (operacaoAtual == Operacao.NAVEGANDO) {
+            if (listaCachorros.isEmpty()) {
+                // Lista vazia, não pode navegar
                 btnProximo.setEnabled(false);
-            }
-            if (posicaoCachorroAtual == 0) {
-                // Se estiver na primeira posição, não pode ir para o anterior
                 btnAnterior.setEnabled(false);
+                // Também não lemos nenhum dado
+            } else {
+                if (posicaoCachorroAtual == listaCachorros.size() - 1) {
+                    // Se estiver na última posição, não pode ir para o próximo
+                    btnProximo.setEnabled(false);
+                }
+                if (posicaoCachorroAtual == 0) {
+                    // Se estiver na primeira posição, não pode ir para o anterior
+                    btnAnterior.setEnabled(false);
+                }
+
+                // Pegar as informações do cachorro nessa posição
+                try {
+                    Cachorro r = Cachorros.getCachorro(posicaoCachorroAtual);
+
+                    txtIdCachorro.setText(r.getIdCachorro() + "");
+                    txtNomeCachorro.setText(r.getNome());
+                    txtRaca.setText(r.getRaca());
+                    txtPorte.setText(r.getPorte());
+                    txtCor.setText(r.getCor());
+                    txtNomeDono.setText(r.getDono());
+                    txtCep.setText(r.getCep());
+                    txtIdadeCachorro.setText(r.getIdade() + "");
+                    txtNumeroCasa.setText(r.getNumeroCasa() + "");
+                    txtPeso.setText(r.getPeso() + "");
+
+                    // Mostrar logradouro no textarea
+                    MostrarLogradouro(r.getCep());
+
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO AO ACESSAR CACHORRO!", JOptionPane.ERROR_MESSAGE);
+                }
             }
-
-            // Pegar as informações do cachorro nessa posição
-
         }
     }
 
     private void VerificarHabilitacaoControles() {
         // Habilitamos todos os controles para desabilitar nas situações oportunas
-        txtIdCachorro   .setEditable(false);
-        txtNomeCachorro .setEditable(false);
-        txtRaca         .setEditable(false);
-        txtPorte        .setEditable(false);
-        txtCor          .setEditable(false);
-        txtNomeDono     .setEditable(false);
-        txtCep          .setEditable(true);
-        txtIdadeCachorro.setEditable(false);
-        txtNumeroCasa   .setEditable(false);
-        txtPeso         .setEditable(false);
+        boolean podeHabilitar = operacaoAtual != Operacao.NAVEGANDO;
 
-        btnInserir  .setEnabled(true);
-        btnBuscar   .setEnabled(true);
-        btnDeletar  .setEnabled(true);
-        btnAtualizar.setEnabled(true);
-        btnSalvar   .setEnabled(true);
-        btnCancelar .setEnabled(true);
-        btnProximo  .setEnabled(true);
-        btnAnterior .setEnabled(true);
+        txtIdCachorro   .setEditable(podeHabilitar);
+        txtNomeCachorro .setEditable(podeHabilitar);
+        txtRaca         .setEditable(podeHabilitar);
+        txtPorte        .setEditable(podeHabilitar);
+        txtCor          .setEditable(podeHabilitar);
+        txtNomeDono     .setEditable(podeHabilitar);
+        txtCep          .setEditable(podeHabilitar);
+        txtIdadeCachorro.setEditable(podeHabilitar);
+        txtNumeroCasa   .setEditable(podeHabilitar);
+        txtPeso         .setEditable(podeHabilitar);
+
+        btnInserir  .setEnabled(!podeHabilitar);
+        btnBuscar   .setEnabled(!podeHabilitar);
+        btnDeletar  .setEnabled(!podeHabilitar);
+        btnAtualizar.setEnabled(!podeHabilitar);
+
+        btnSalvar   .setEnabled(podeHabilitar);
+        btnCancelar .setEnabled(podeHabilitar);
+
+        // btnProximo e btnAnterior vão estar sendo setados pelo método VerificarPosicaoCachorroEPreencherCampos
+        VerificarPosicaoCachorroEPreencherCampos();
 
         btnSalvar.setText("Salvar"); // Setamos para o texto padrão
         lbMensagem.setText("Mensagem: "); // Setamos para a mensagem padrão
@@ -250,17 +272,18 @@ public class Janela extends JFrame {
 
         if (this.operacaoAtual != Operacao.NAVEGANDO)
         {
-            // Isso não é condicional, pois em qualquer operação que não seja Navegar os botões estarão desabilitados
-            // pois o usuário já erá clicado em algum deles
-            btnInserir  .setEnabled(false);
-            btnBuscar   .setEnabled(false);
-            btnDeletar  .setEnabled(false);
-            btnAtualizar.setEnabled(false);
-
-
             if (this.operacaoAtual == Operacao.INSERINDO || this.operacaoAtual == Operacao.ATUALIZANDO) {
                 // Digitará tudo, menos o IdCachorro (nas duas operações)
-                txtIdCachorro.setEditable(false);
+                txtIdCachorro   .setEditable(false);
+                txtNomeCachorro .setEditable(true);
+                txtRaca         .setEditable(true);
+                txtPorte        .setEditable(true);
+                txtCor          .setEditable(true);
+                txtNomeDono     .setEditable(true);
+                txtCep          .setEditable(true);
+                txtIdadeCachorro.setEditable(true);
+                txtNumeroCasa   .setEditable(true);
+                txtPeso         .setEditable(true);
 
                 // Para sair da operação de inserir ou atualizar, basta clicar no botão Cancelar, os outros
                 // botões já estarão desabilitados
@@ -342,18 +365,36 @@ public class Janela extends JFrame {
         }
     }
 
+    protected class PassarParaProximo implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            posicaoCachorroAtual++;
+            VerificarPosicaoCachorroEPreencherCampos();
+        }
+    }
+
+    protected class PassarParaAnterior implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            posicaoCachorroAtual--;
+            VerificarPosicaoCachorroEPreencherCampos();
+        }
+    }
+
+    public void MostrarLogradouro(String cep) {
+        try {
+            Logradouro l = retornarLogradouro(cep);
+            txtLogradouro.append(l.toString());
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null,
+                    "Verifique se digitou o CEP corretamente ou se está conectado devidamente à rede",
+                    "ERRO AO RETORNAR LOGRADOURO!", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
     protected class MostrarLogradouro extends FocusAdapter {
         public void focusLost(FocusEvent e) {
             if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
                 String cep = txtCep.getText();
-                try {
-                    Logradouro l = retornarLogradouro(cep);
-                    txtLogradouro.append(l.toString());
-                } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null,
-                            "Verifique se digitou o CEP corretamente ou se está conectado devidamente à rede",
-                            "ERRO AO RETORNAR LOGRADOURO!", JOptionPane.ERROR_MESSAGE);
-                }
+                MostrarLogradouro(cep);
             }
         }
     }
