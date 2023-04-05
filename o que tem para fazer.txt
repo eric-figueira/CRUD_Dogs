@@ -1,0 +1,3 @@
+- btnCancelar limpa tudo - o Éric quer fazer esse
+- Consertar erro textArea - o Éric vai ter que fazer pq eu nn consigo acessar o bd
+- focusLost dos campos integer e short - mas o Marcos vai fazer
