@@ -154,7 +154,7 @@ public class Cachorros {
     }
 
     public static ArrayList<Cachorro> getArrayListCachorros() throws Exception {
-        ArrayList<Cachorro> lista = null;
+        ArrayList<Cachorro> lista = new ArrayList<>();
         try {
             String sql = "select * from CRUD_Dogs.Cachorro";
 

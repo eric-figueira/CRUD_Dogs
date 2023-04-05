@@ -172,9 +172,8 @@ public class Janela extends JFrame {
         catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
         this.posicaoCachorroAtual = 0; // Nenhum cachorro na lista
 
-        this.VerificarPosicaoCachorroEPreencherCampos();
-
         this.operacaoAtual = Operacao.NAVEGANDO;
+        this.VerificarHabilitacaoControles();
 
         this.addWindowListener(new FechamentoDeJanela());
 
@@ -200,7 +199,7 @@ public class Janela extends JFrame {
         // além de testar se os botoes Proximo e Anterior deverão ser (des)habilitados
 
         if (operacaoAtual == Operacao.NAVEGANDO) {
-            if (listaCachorros.isEmpty()) {
+            if (this.listaCachorros.isEmpty()) {
                 // Lista vazia, não pode navegar
                 btnProximo.setEnabled(false);
                 btnAnterior.setEnabled(false);
@@ -219,16 +218,16 @@ public class Janela extends JFrame {
                 try {
                     Cachorro r = Cachorros.getCachorro(posicaoCachorroAtual);
 
-                    txtIdCachorro.setText(r.getIdCachorro() + "");
-                    txtNomeCachorro.setText(r.getNome());
-                    txtRaca.setText(r.getRaca());
-                    txtPorte.setText(r.getPorte());
-                    txtCor.setText(r.getCor());
-                    txtNomeDono.setText(r.getDono());
-                    txtCep.setText(r.getCep());
+                    txtIdCachorro   .setText(r.getIdCachorro() + "");
+                    txtNomeCachorro .setText(r.getNome());
+                    txtRaca         .setText(r.getRaca());
+                    txtPorte        .setText(r.getPorte());
+                    txtCor          .setText(r.getCor());
+                    txtNomeDono     .setText(r.getDono());
+                    txtCep          .setText(r.getCep());
                     txtIdadeCachorro.setText(r.getIdade() + "");
-                    txtNumeroCasa.setText(r.getNumeroCasa() + "");
-                    txtPeso.setText(r.getPeso() + "");
+                    txtNumeroCasa   .setText(r.getNumeroCasa() + "");
+                    txtPeso         .setText(r.getPeso() + "");
 
                     // Mostrar logradouro no textarea
                     MostrarLogradouro(r.getCep());
@@ -320,7 +319,6 @@ public class Janela extends JFrame {
                 }
             }
         }
-            // Aqui teria algo para o Navegando?
     }
 
 
