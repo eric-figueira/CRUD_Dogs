@@ -89,7 +89,7 @@ public class Janela extends JFrame {
         btnDeletar.addActionListener(new Deletar());
         btnProximo.addActionListener(new PassarParaProximo());
         btnAnterior.addActionListener(new PassarParaAnterior());
-        //btnSalvar.addActionListener(new Salvar());
+        btnSalvar.addActionListener(new Salvar());
         btnCancelar.addActionListener(new Cancelar());
         txtCep.addFocusListener(new MostrarLogradouro());
 
@@ -325,6 +325,36 @@ public class Janela extends JFrame {
     protected class FechamentoDeJanela extends WindowAdapter {
         public void windowClosing(WindowEvent e) {
             System.exit(0);
+        }
+    }
+
+    protected class Salvar implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            try {
+                Cachorro cachorro = new Cachorro(0, txtNomeCachorro.getText(), txtRaca.getText(), Short.parseShort(txtIdadeCachorro.getText()),
+                        Integer.parseInt(txtPeso.getText()), txtPorte.getText(), txtCor.getText(),
+                        txtNomeDono.getText(), txtCep.getText(), Short.parseShort(txtNumeroCasa.getText()));
+
+                if (operacaoAtual == Operacao.INSERINDO) {
+                    Cachorros.inserir(cachorro);
+                }
+                else if (operacaoAtual == Operacao.ATUALIZANDO) {
+                    cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                    Cachorros.atualizar(cachorro);
+                }
+                else if (operacaoAtual == Operacao.DELETANDO) {
+                    cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                    Cachorros.excluir(cachorro);
+                }
+                else if (operacaoAtual == Operacao.BUSCANDO) {
+                    cachorro = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                    posicaoCachorroAtual = listaCachorros.indexOf(cachorro);
+                    VerificarPosicaoCachorroEPreencherCampos();
+                }
+            }
+            catch (Exception erro) {
+                JOptionPane.showMessageDialog(null, erro.getMessage(), "ERRO AO CONCLUIR OPERAÇÃO!", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }
 
