@@ -9,7 +9,8 @@ public class Cachorro {
                    porte,
                    cor,
                    dono,
-                   cep;
+                   cep,
+                   complemento;
     private short idade,
                   numeroCasa;
     private float peso;
@@ -114,6 +115,16 @@ public class Cachorro {
         this.numeroCasa = numeroCasa;
     }
 
+    public void setComplemento(String complemento) throws Exception {
+        if (complemento == null || complemento.isEmpty())
+            throw new Exception("Nome do dono inválido!");
+
+        if (complemento.length() > 30)
+            complemento = complemento.substring(0, 30);
+
+        this.complemento = complemento;
+    }
+
     // Getters
 
     public int getIdCachorro() {
@@ -144,6 +155,8 @@ public class Cachorro {
         return this.cep;
     }
 
+    public String getComplemento() { return this.complemento; }
+
     public short getIdade() {
         return this.idade;
     }
@@ -156,11 +169,10 @@ public class Cachorro {
         return this.peso;
     }
 
-
     // Métodos Obrigatórios
 
     public Cachorro(int idCachorro, String nome, String raca, short idade, float peso,
-                    String porte, String cor, String dono, String cep, short numeroCasa) throws Exception
+                    String porte, String cor, String dono, String cep, short numeroCasa, String complemento) throws Exception
     {
         this.setIdCachorro(idCachorro);
         this.setNome(nome);
@@ -172,6 +184,7 @@ public class Cachorro {
         this.setDono(dono);
         this.setCep(cep);
         this.setNumeroCasa(numeroCasa);
+        this.setComplemento(complemento);
     }
 
     @Override
@@ -187,7 +200,8 @@ public class Cachorro {
         ret += "Cor Cachorro..: " + this.getCor() + "\n";
         ret += "Nome Dono.....: " + this.getDono() + "\n";
         ret += "CEP...........: " + this.getCep() + "\n";
-        ret += "Número Casa...: " + this.getNumeroCasa();
+        ret += "Número Casa...: " + this.getNumeroCasa() + "\n";
+        ret += "Complemento...: " + this.getComplemento();
 
         return ret;
     }
@@ -212,6 +226,7 @@ public class Cachorro {
         if (!this.dono.equals(c.dono)) return false;
         if (!this.cep.equals(c.cep)) return false;
         if (this.numeroCasa != c.numeroCasa) return false;
+        if (!this.complemento.equals(c.complemento)) return false;
 
         return true;
     }
@@ -229,6 +244,7 @@ public class Cachorro {
         ret = 23 * ret + this.dono.hashCode();
         ret = 23 * ret + this.cep.hashCode();
         ret = 23 * ret + Short.valueOf(this.numeroCasa).hashCode();
+        ret = 23 * ret + this.dono.hashCode();
 
         if (ret < 0) ret = -ret;
 
@@ -240,16 +256,17 @@ public class Cachorro {
         if (obj == null)
             throw new Exception("Modelo de objeto ausente!");
 
-        this.idCachorro = obj.idCachorro;
-        this.nome       = obj.nome;
-        this.raca       = obj.raca;
-        this.idade      = obj.idade;
-        this.peso       = obj.peso;
-        this.porte      = obj.porte;
-        this.cor        = obj.cor;
-        this.dono       = obj.dono;
-        this.cep        = obj.cep;
-        this.numeroCasa = obj.numeroCasa;
+        this.idCachorro  = obj.idCachorro;
+        this.nome        = obj.nome;
+        this.raca        = obj.raca;
+        this.idade       = obj.idade;
+        this.peso        = obj.peso;
+        this.porte       = obj.porte;
+        this.cor         = obj.cor;
+        this.dono        = obj.dono;
+        this.cep         = obj.cep;
+        this.numeroCasa  = obj.numeroCasa;
+        this.complemento = obj.complemento;
     }
 
     public Object clone()

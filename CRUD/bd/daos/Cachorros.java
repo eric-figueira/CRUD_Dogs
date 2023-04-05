@@ -37,7 +37,7 @@ public class Cachorros {
             throw new Exception("CACHORRO É NULO, MALIGNO!");
         try {
             String sql = "insert into CRUD_Dogs.Cachorro (nome, raca, idade, peso, porte, cor, dono, cep, numeroCasa) " +
-                    "values (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                    "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setString(1, cachorro.getNome());
@@ -49,6 +49,7 @@ public class Cachorros {
             BDSQLServer.COMANDO.setString(7, cachorro.getDono());
             BDSQLServer.COMANDO.setString(8, cachorro.getCep());
             BDSQLServer.COMANDO.setInt(9, cachorro.getNumeroCasa());
+            BDSQLServer.COMANDO.setString(10, cachorro.getComplemento());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit();
@@ -79,6 +80,7 @@ public class Cachorros {
             BDSQLServer.COMANDO.setString(8, cachorro.getCep());
             BDSQLServer.COMANDO.setInt(9, cachorro.getNumeroCasa());
             BDSQLServer.COMANDO.setInt(10, cachorro.getIdCachorro());
+            BDSQLServer.COMANDO.setString(11, cachorro.getComplemento());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit();
@@ -131,7 +133,8 @@ public class Cachorros {
                     resultado.getString("cor"),
                     resultado.getString("dono"),
                     resultado.getString("cep"),
-                    resultado.getShort("numeroCasa"));
+                    resultado.getShort("numeroCasa"),
+                    resultado.getString("complemento"));
         }
         catch (SQLException erro) {
             throw new Exception("ERRO AO BUSCAR POR CACHORRO! AAAAAA");
@@ -172,7 +175,8 @@ public class Cachorros {
                     resultado.getString("cor"),
                     resultado.getString("dono"),
                     resultado.getString("cep"),
-                    resultado.getShort("numeroCasa"));
+                    resultado.getShort("numeroCasa"),
+                    resultado.getString("complemento"));
                 lista.add(cachorro);
             }
         }
