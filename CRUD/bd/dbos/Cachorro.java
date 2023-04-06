@@ -16,10 +16,10 @@ public class Cachorro {
     private float peso;
 
     // Setters
-
     public void setIdCachorro(int id) throws Exception
     {
-        if (id < 0)
+        // -1 vai indicar que não há nenhum cachorro na lista, e 0 será a 1a posição
+        if (id < -1)
             throw new Exception("Id do Cachorro inválido!");
 
         this.idCachorro = id;

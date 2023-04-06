@@ -73,6 +73,11 @@ public class Janela extends JFrame {
         }
     }
 
+    public void updateArrayListCachorros() {
+        try { this.listaCachorros = Cachorros.getArrayListCachorros(); }
+        catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
+    }
+
     public Janela() {
 
         super("CRUD Cachorros");
@@ -171,9 +176,8 @@ public class Janela extends JFrame {
         ctnForm.add(dgBottom, BorderLayout.SOUTH);
 
         // Fazer get dos cachorros e setar a posição para 0
-        try { this.listaCachorros = Cachorros.getArrayListCachorros(); }
-        catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
-        this.posicaoCachorroAtual = 0; // Nenhum cachorro na lista
+        updateArrayListCachorros();
+        this.posicaoCachorroAtual = -1; // Nenhum cachorro na lista
 
         this.operacaoAtual = Operacao.NAVEGANDO;
         this.VerificarHabilitacaoControles();
@@ -209,7 +213,8 @@ public class Janela extends JFrame {
                 btnAnterior.setEnabled(false);
                 // Também não lemos nenhum dado
             }
-            else {
+            else
+            {
                 if (posicaoCachorroAtual == listaCachorros.size() - 1) {
                     // Se estiver na última posição, não pode ir para o próximo
                     btnProximo.setEnabled(false);
@@ -339,32 +344,44 @@ public class Janela extends JFrame {
     protected class Salvar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
-                Cachorro cachorro = new Cachorro(0, txtNomeCachorro.getText(), txtRaca.getText(), Short.parseShort(txtIdadeCachorro.getText()),
+                Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(), Short.parseShort(txtIdadeCachorro.getText()),
                         Integer.parseInt(txtPeso.getText()), txtPorte.getText(), txtCor.getText(),
                         txtNomeDono.getText(), txtCep.getText(), Short.parseShort(txtNumero.getText()), txtComplemento.getText());
 
                 if (operacaoAtual == Operacao.INSERINDO) {
                     Cachorros.inserir(cachorro);
 
-                    JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                    // O ArrayList de cachorros deve ser atualizado
+                    updateArrayListCachorros();
                 }
                 else if (operacaoAtual == Operacao.ATUALIZANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
                     Cachorros.atualizar(cachorro);
 
-                    JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                    // O ArrayList de cachorros deve ser atualizado
+                    updateArrayListCachorros();
                 }
                 else if (operacaoAtual == Operacao.DELETANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
                     Cachorros.excluir(cachorro);
 
-                    JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                    // O ArrayList de cachorros deve ser atualizado
+                    updateArrayListCachorros();
                 }
                 else if (operacaoAtual == Operacao.BUSCANDO) {
                     cachorro = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
                     posicaoCachorroAtual = listaCachorros.indexOf(cachorro);
-                    VerificarPosicaoCachorroEPreencherCampos();
                 }
+
+                // Depois que o usuário fez o que tinha que fazer, tem que voltar para o modo de navegação
+                operacaoAtual = Operacao.NAVEGANDO;
+                VerificarHabilitacaoControles();
             }
             catch (Exception erro) {
                 JOptionPane.showMessageDialog(null, erro.getMessage(), "ERRO AO CONCLUIR OPERAÇÃO!", JOptionPane.ERROR_MESSAGE);
