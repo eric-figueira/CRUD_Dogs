@@ -198,7 +198,7 @@ public class Janela extends JFrame {
         ctnForm.add(dgBottom, BorderLayout.SOUTH);
 
         // Fazer get dos cachorros e setar a posição para 0
-        updateArrayListCachorros();
+        //updateArrayListCachorros();
         if (listaCachorros.isEmpty()) posicaoCachorroAtual = -1; // Nenhum cachorro na lista
         else posicaoCachorroAtual = 0; // Estamos no primeiro cachorro da lista
 
@@ -291,9 +291,12 @@ public class Janela extends JFrame {
         txtComplemento  .setEditable(podeHabilitar);
 
         btnInserir  .setEnabled(!podeHabilitar);
-        btnBuscar   .setEnabled(!podeHabilitar);
-        btnDeletar  .setEnabled(!podeHabilitar);
-        btnAtualizar.setEnabled(!podeHabilitar);
+
+        // caso não haja cachorros ainda cadastrados, o usuário não pode realizar nennuma ação exceto incluir
+        boolean pode = !listaCachorros.isEmpty();
+        btnBuscar   .setEnabled(pode);
+        btnDeletar  .setEnabled(pode);
+        btnAtualizar.setEnabled(pode);
 
         btnSalvar   .setEnabled(podeHabilitar);
         btnCancelar .setEnabled(podeHabilitar);
@@ -360,7 +363,6 @@ public class Janela extends JFrame {
         }
     }
 
-
     protected class FechamentoDeJanela extends WindowAdapter {
         public void windowClosing(WindowEvent e) {
             System.exit(0);
@@ -372,9 +374,11 @@ public class Janela extends JFrame {
             try {
                 String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
                         + txtCep.getText().substring(7, 10);
-                Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(), (short)spIdadeCachorro.getValue(),
-                        (float)spPeso.getValue(), cbPorte.getSelectedItem() + "", txtCor.getText(),
-                        txtNomeDono.getText(), cep, (short)spNumero.getValue(), txtComplemento.getText());
+                Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(),
+                        Short.parseShort(spIdadeCachorro.getValue().toString()),
+                        Float.parseFloat(spPeso.getValue().toString()), cbPorte.getSelectedItem() + "",
+                        txtCor.getText(), txtNomeDono.getText(), cep,
+                        Short.parseShort(spNumero.getValue().toString()), txtComplemento.getText());
 
                 if (operacaoAtual == Operacao.INSERINDO) {
                     Cachorros.inserir(cachorro);
@@ -382,7 +386,7 @@ public class Janela extends JFrame {
                     JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
                     // O ArrayList de cachorros deve ser atualizado
-                    updateArrayListCachorros();
+                    //updateArrayListCachorros();
 
                     // Como acabamos de inserir no banco de dados, o cachorro inserido será o último da lista, e ao setar
                     // posicaoCachorroAtual para o tamanho da lista - 1, estaremos carregando os dados do último cachorro
@@ -395,7 +399,7 @@ public class Janela extends JFrame {
                     JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
                     // O ArrayList de cachorros deve ser atualizado
-                    updateArrayListCachorros();
+                    //updateArrayListCachorros();
                 }
                 else if (operacaoAtual == Operacao.DELETANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
@@ -403,8 +407,11 @@ public class Janela extends JFrame {
 
                     JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
+                    // se você deletou um cachorro a posição é decrementada
+                    posicaoCachorroAtual -= 1;
+
                     // O ArrayList de cachorros deve ser atualizado
-                    updateArrayListCachorros();
+                    //updateArrayListCachorros();
 
                     // Precisa de regra de negocio
                 }
