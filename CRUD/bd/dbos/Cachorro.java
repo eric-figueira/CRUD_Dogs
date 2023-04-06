@@ -117,10 +117,10 @@ public class Cachorro {
 
     public void setComplemento(String complemento) throws Exception {
         if (complemento == null || complemento.isEmpty())
-            throw new Exception("Nome do dono inválido!");
+            throw new Exception("Complemento inválido!");
 
-        if (complemento.length() > 30)
-            complemento = complemento.substring(0, 30);
+        if (complemento.length() > 15)
+            complemento = complemento.substring(0, 15);
 
         this.complemento = complemento;
     }
@@ -244,7 +244,7 @@ public class Cachorro {
         ret = 23 * ret + this.dono.hashCode();
         ret = 23 * ret + this.cep.hashCode();
         ret = 23 * ret + Short.valueOf(this.numeroCasa).hashCode();
-        ret = 23 * ret + this.dono.hashCode();
+        ret = 23 * ret + this.complemento.hashCode();
 
         if (ret < 0) ret = -ret;
 

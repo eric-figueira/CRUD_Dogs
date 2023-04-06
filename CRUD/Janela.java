@@ -208,7 +208,8 @@ public class Janela extends JFrame {
                 btnProximo.setEnabled(false);
                 btnAnterior.setEnabled(false);
                 // Também não lemos nenhum dado
-            } else {
+            }
+            else {
                 if (posicaoCachorroAtual == listaCachorros.size() - 1) {
                     // Se estiver na última posição, não pode ir para o próximo
                     btnProximo.setEnabled(false);
@@ -256,7 +257,7 @@ public class Janela extends JFrame {
         txtIdadeCachorro.setEditable(podeHabilitar);
         txtPeso         .setEditable(podeHabilitar);
         txtCep          .setEditable(podeHabilitar);
-        txtNumero.setEditable(podeHabilitar);
+        txtNumero       .setEditable(podeHabilitar);
         txtComplemento  .setEditable(podeHabilitar);
 
         btnInserir  .setEnabled(!podeHabilitar);
@@ -344,14 +345,20 @@ public class Janela extends JFrame {
 
                 if (operacaoAtual == Operacao.INSERINDO) {
                     Cachorros.inserir(cachorro);
+
+                    JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (operacaoAtual == Operacao.ATUALIZANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
                     Cachorros.atualizar(cachorro);
+
+                    JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (operacaoAtual == Operacao.DELETANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
                     Cachorros.excluir(cachorro);
+
+                    JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (operacaoAtual == Operacao.BUSCANDO) {
                     cachorro = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
@@ -369,6 +376,9 @@ public class Janela extends JFrame {
         public void actionPerformed(ActionEvent e) {
             operacaoAtual = Operacao.INSERINDO;
             VerificarHabilitacaoControles();
+
+            // Precisamos limpar a tela para o usuário colocar os dados do cachorro
+            LimparCampos();
         }
     }
 
@@ -376,6 +386,8 @@ public class Janela extends JFrame {
         public void actionPerformed(ActionEvent e) {
             operacaoAtual = Operacao.ATUALIZANDO;
             VerificarHabilitacaoControles();
+
+            // Não limpamos a tela pois o usuário pode não querer mudar todos os dados
         }
     }
 
@@ -396,8 +408,11 @@ public class Janela extends JFrame {
     protected class Cancelar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             operacaoAtual = Operacao.NAVEGANDO;
+
+            // O usuário tinha (ou não) dados da tela, decidiu fazer alguma operação, os campos foram
+            // habilitados/limpos, mas o usuário decidiu cancelar a operação, precisamos recolocar
+            // os dados que antes estavam na tela. O método abaixo chama o método que faz isso
             VerificarHabilitacaoControles();
-            VerificarPosicaoCachorroEPreencherCampos();
         }
     }
 
@@ -416,10 +431,15 @@ public class Janela extends JFrame {
     }
 
     public void MostrarLogradouro(String cep) {
-        try {
+        try
+        {
             Logradouro l = retornarLogradouro(cep);
+
+            // Caso já tenha algo escrito no textArea, precisamos limpá-lo antes de escrever o novo dado
+            txtLogradouro.setText("");
             txtLogradouro.append(l.toString());
-        } catch (Exception ex) {
+        }
+        catch (Exception ex) {
             JOptionPane.showMessageDialog(null,
                     "Verifique se digitou o CEP corretamente ou se está conectado devidamente à rede",
                     "ERRO AO RETORNAR LOGRADOURO!", JOptionPane.ERROR_MESSAGE);

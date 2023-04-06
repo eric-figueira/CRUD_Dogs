@@ -36,7 +36,7 @@ public class Cachorros {
         if (cachorro == null)
             throw new Exception("CACHORRO É NULO, MALIGNO!");
         try {
-            String sql = "insert into CRUD_Dogs.Cachorro (nome, raca, idade, peso, porte, cor, dono, cep, numeroCasa) " +
+            String sql = "insert into CRUD_Dogs.Cachorro (nome, raca, idade, peso, porte, cor, dono, cep, numeroCasa, complemento) " +
                     "values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
@@ -67,7 +67,7 @@ public class Cachorros {
             throw new Exception("CACHORRO NÃO ESTÁ CADASTRADO, PESTE!");
         try {
             String sql = "update CRUD_Dogs.Cachorro set nome = ?, raca = ?, idade = ?, peso = ?, porte = ?, cor = ?, " +
-                    "dono = ?, cep = ?, numeroCasa = ? where id = ?";
+                    "dono = ?, cep = ?, numeroCasa = ?, complemento = ? where id = ?";
 
             BDSQLServer.COMANDO.prepareStatement(sql);
             BDSQLServer.COMANDO.setString(1, cachorro.getNome());
@@ -79,8 +79,8 @@ public class Cachorros {
             BDSQLServer.COMANDO.setString(7, cachorro.getDono());
             BDSQLServer.COMANDO.setString(8, cachorro.getCep());
             BDSQLServer.COMANDO.setInt(9, cachorro.getNumeroCasa());
-            BDSQLServer.COMANDO.setInt(10, cachorro.getIdCachorro());
-            BDSQLServer.COMANDO.setString(11, cachorro.getComplemento());
+            BDSQLServer.COMANDO.setString(10, cachorro.getComplemento());
+            BDSQLServer.COMANDO.setInt(11, cachorro.getIdCachorro());
 
             BDSQLServer.COMANDO.executeUpdate();
             BDSQLServer.COMANDO.commit();
