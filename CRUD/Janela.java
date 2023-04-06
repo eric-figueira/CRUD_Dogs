@@ -9,6 +9,7 @@ import CRUD.bd.dbos.Cachorro;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
+import javax.swing.text.MaskFormatter;
 import java.util.*;
 
 
@@ -20,12 +21,11 @@ public class Janela extends JFrame {
     protected Operacao operacaoAtual;
 
     // Lista de Cachorros
-    ArrayList<Cachorro> listaCachorros;
+    ArrayList<Cachorro> listaCachorros = new ArrayList<>();
     protected int posicaoCachorroAtual;
 
     // Labels
-    protected JLabel lbTitulo        = new JLabel("CRUD Cachorros"),
-                     lbIdCachorro    = new JLabel("Id Cachorro"),
+    protected JLabel lbIdCachorro    = new JLabel("Id Cachorro"),
                      lbNomeCachorro  = new JLabel("Nome do Cachorro"),
                      lbRaca          = new JLabel("Raça"),
                      lbPorte         = new JLabel("Porte"),
@@ -48,18 +48,23 @@ public class Janela extends JFrame {
                       btnProximo   = new JButton(">"),
                       btnAnterior  = new JButton("<");
 
-    // TextBoxes
+    // Inputs
     protected JTextField txtIdCachorro    = new JTextField(),
                          txtNomeCachorro  = new JTextField(),
                          txtRaca          = new JTextField(),
-                         txtPorte         = new JTextField(),
                          txtCor           = new JTextField(),
                          txtNomeDono      = new JTextField(),
-                         txtIdadeCachorro = new JTextField(),
-                         txtPeso          = new JTextField(),
-                         txtCep           = new JTextField(),
-                         txtNumero = new JTextField(),
                          txtComplemento   = new JTextField();
+
+    protected JFormattedTextField txtCep; // textbox com formatação (máscara)
+
+    // input number
+    protected JSpinner spIdadeCachorro = new JSpinner(new SpinnerNumberModel(0, 0, 30, 1)),
+                       spNumero        = new JSpinner(new SpinnerNumberModel(0, 0, 9999, 1)),
+                       spPeso          = new JSpinner(new SpinnerNumberModel(0, 0, 110, 0.1));
+
+    String[] portes = { "Mini", "Pequeno", "Médio", "Grande", "Gigante" };
+    protected JComboBox cbPorte = new JComboBox(portes); // combobox para auxiliar o usuário
 
     // JList onde serão exibidos os dados do CEP
     protected JTextArea txtLogradouro = new JTextArea();
@@ -87,6 +92,13 @@ public class Janela extends JFrame {
     public Janela() {
 
         super("CRUD Cachorros");
+
+        try {
+            // Setando a máscara para o CEP
+            MaskFormatter mascaraCEP = new MaskFormatter("##.###-###");
+            txtCep = new JFormattedTextField(mascaraCEP);
+        }
+        catch (Exception ex) { }
 
         this.txtLogradouro.setEditable(false); // O usuário não poderá alterar os dados de endereço NUNCA
         this.txtLogradouro.setLineWrap(true);
@@ -140,7 +152,7 @@ public class Janela extends JFrame {
             dgCachorro.add(txtRaca);
 
             dgCachorro.add(lbPorte);
-            dgCachorro.add(txtPorte);
+            dgCachorro.add(cbPorte);
 
             dgCachorro.add(lbCor);
             dgCachorro.add(txtCor);
@@ -149,10 +161,10 @@ public class Janela extends JFrame {
             dgCachorro.add(txtNomeDono);
 
             dgCachorro.add(lbIdadeCachorro);
-            dgCachorro.add(txtIdadeCachorro);
+            dgCachorro.add(spIdadeCachorro);
 
             dgCachorro.add(lbPeso);
-            dgCachorro.add(txtPeso);
+            dgCachorro.add(spPeso);
 
             dgCachorro.add(lbCep);
             dgCachorro.add(txtCep);
@@ -161,7 +173,7 @@ public class Janela extends JFrame {
             dgCachorro.add(txtComplemento);
 
             dgCachorro.add(lbNumeroCasa);
-            dgCachorro.add(txtNumero);
+            dgCachorro.add(spNumero);
 
 
         Cachorro.add(dgCachorro);
@@ -171,10 +183,14 @@ public class Janela extends JFrame {
         ctnForm.setLayout(new BorderLayout());
 
         JPanel dgBottom = new JPanel();
-        dgBottom.setLayout(new GridLayout(2, 2));
+        dgBottom.setLayout(new GridLayout(2, 1));
+        JPanel dgButtons = new JPanel();
+        dgButtons.setLayout(new GridLayout(1, 2));
 
-        dgBottom.add(btnSalvar);
-        dgBottom.add(btnCancelar);
+        dgButtons.add(btnSalvar);
+        dgButtons.add(btnCancelar);
+
+        dgBottom.add(dgButtons);
         dgBottom.add(lbMensagem);
 
         ctnForm.add(navBotoes, BorderLayout.NORTH);
@@ -199,18 +215,18 @@ public class Janela extends JFrame {
         txtIdCachorro   .setText("");
         txtNomeCachorro .setText("");
         txtRaca         .setText("");
-        txtPorte        .setText("");
+        cbPorte         .setSelectedIndex(0);
         txtCor          .setText("");
         txtNomeDono     .setText("");
-        txtIdadeCachorro.setText("");
-        txtPeso         .setText("");
+        spIdadeCachorro .setValue(0);
+        spPeso          .setValue(0);
         txtCep          .setText("");
-        txtNumero.setText("");
+        spNumero        .setValue(0);
         txtComplemento  .setText("");
     }
 
     private void VerificarPosicaoCachorroEPreencherCampos() {
-        // Método que será responsável por ler a posição atual do cachorro e colocar seus dados nos campos
+        // Método que será responsável por ler a posição atual do cachorro e colocar os seus dados nos campos
         // além de testar se os botoes Proximo e Anterior deverão ser (des)habilitados
 
         if (operacaoAtual == Operacao.NAVEGANDO)
@@ -240,13 +256,13 @@ public class Janela extends JFrame {
                     txtIdCachorro   .setText(r.getIdCachorro() + "");
                     txtNomeCachorro .setText(r.getNome());
                     txtRaca         .setText(r.getRaca());
-                    txtPorte        .setText(r.getPorte());
+                    cbPorte         .setSelectedItem(r.getPorte());
                     txtCor          .setText(r.getCor());
                     txtNomeDono     .setText(r.getDono());
                     txtCep          .setText(r.getCep());
-                    txtIdadeCachorro.setText(r.getIdade() + "");
-                    txtNumero.setText(r.getNumeroCasa() + "");
-                    txtPeso         .setText(r.getPeso() + "");
+                    spIdadeCachorro .setValue(r.getIdade());
+                    spNumero        .setValue(r.getNumeroCasa());
+                    spPeso          .setValue(r.getPeso());
 
                     // Mostrar logradouro no textarea
                     MostrarLogradouro(r.getCep());
@@ -265,13 +281,13 @@ public class Janela extends JFrame {
         txtIdCachorro   .setEditable(podeHabilitar);
         txtNomeCachorro .setEditable(podeHabilitar);
         txtRaca         .setEditable(podeHabilitar);
-        txtPorte        .setEditable(podeHabilitar);
+        cbPorte         .setEnabled (podeHabilitar);
         txtCor          .setEditable(podeHabilitar);
         txtNomeDono     .setEditable(podeHabilitar);
-        txtIdadeCachorro.setEditable(podeHabilitar);
-        txtPeso         .setEditable(podeHabilitar);
+        spIdadeCachorro .setEnabled (podeHabilitar);
+        spPeso          .setEnabled (podeHabilitar);
         txtCep          .setEditable(podeHabilitar);
-        txtNumero       .setEditable(podeHabilitar);
+        spNumero        .setEnabled (podeHabilitar);
         txtComplemento  .setEditable(podeHabilitar);
 
         btnInserir  .setEnabled(!podeHabilitar);
@@ -296,13 +312,13 @@ public class Janela extends JFrame {
                 txtIdCachorro   .setEditable(false);
                 txtNomeCachorro .setEditable(true);
                 txtRaca         .setEditable(true);
-                txtPorte        .setEditable(true);
+                cbPorte         .setEnabled (true);
                 txtCor          .setEditable(true);
                 txtNomeDono     .setEditable(true);
-                txtIdadeCachorro.setEditable(true);
-                txtPeso         .setEditable(true);
+                spIdadeCachorro .setEnabled (true);
+                spPeso          .setEnabled (true);
                 txtCep          .setEditable(true);
-                txtNumero       .setEditable(true);
+                spNumero        .setEnabled (true);
                 txtComplemento  .setEditable(true);
 
                 // Para sair da operação de inserir ou atualizar, basta clicar no botão Cancelar, os outros
@@ -319,15 +335,16 @@ public class Janela extends JFrame {
 
             } else if (this.operacaoAtual == Operacao.BUSCANDO || this.operacaoAtual == Operacao.DELETANDO) {
                 // Digitará apenas o IdCachorro (na Busca), o resto estará desabilitado para digitar
+                txtIdCachorro   .setEditable(true);
                 txtNomeCachorro .setEditable(false);
                 txtRaca         .setEditable(false);
-                txtPorte        .setEditable(false);
+                cbPorte         .setEnabled (false);
                 txtCor          .setEditable(false);
                 txtNomeDono     .setEditable(false);
-                txtIdadeCachorro.setEditable(false);
-                txtPeso         .setEditable(false);
+                spIdadeCachorro .setEnabled (false);
+                spPeso          .setEnabled (false);
                 txtCep          .setEditable(false);
-                txtNumero       .setEditable(false);
+                spNumero        .setEnabled (false);
                 txtComplemento  .setEditable(false);
 
                 if (this.operacaoAtual == Operacao.BUSCANDO) {
@@ -353,9 +370,11 @@ public class Janela extends JFrame {
     protected class Salvar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
             try {
-                Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(), Short.parseShort(txtIdadeCachorro.getText()),
-                        Integer.parseInt(txtPeso.getText()), txtPorte.getText(), txtCor.getText(),
-                        txtNomeDono.getText(), txtCep.getText(), Short.parseShort(txtNumero.getText()), txtComplemento.getText());
+                String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
+                        + txtCep.getText().substring(7, 10);
+                Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(), (short)spIdadeCachorro.getValue(),
+                        (float)spPeso.getValue(), cbPorte.getSelectedItem() + "", txtCor.getText(),
+                        txtNomeDono.getText(), cep, (short)spNumero.getValue(), txtComplemento.getText());
 
                 if (operacaoAtual == Operacao.INSERINDO) {
                     Cachorros.inserir(cachorro);
@@ -419,7 +438,7 @@ public class Janela extends JFrame {
             operacaoAtual = Operacao.ATUALIZANDO;
             VerificarHabilitacaoControles();
 
-            // Não limpamos a tela pois o usuário pode não querer mudar todos os dados
+            // Não limpamos a tela, pois o usuário pode não querer mudar todos os dados
         }
     }
 
@@ -481,7 +500,8 @@ public class Janela extends JFrame {
     protected class MostrarLogradouro extends FocusAdapter {
         public void focusLost(FocusEvent e) {
             if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
-                String cep = txtCep.getText();
+                String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
+                        + txtCep.getText().substring(7, 10);
                 MostrarLogradouro(cep);
             }
         }
