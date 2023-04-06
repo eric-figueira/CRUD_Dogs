@@ -74,7 +74,13 @@ public class Janela extends JFrame {
     }
 
     public void updateArrayListCachorros() {
-        try { this.listaCachorros = Cachorros.getArrayListCachorros(); }
+        try
+        {
+            this.listaCachorros = Cachorros.getArrayListCachorros();
+
+            System.out.println(listaCachorros.isEmpty());
+            System.out.println(posicaoCachorroAtual);
+        }
         catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
     }
 
@@ -177,7 +183,8 @@ public class Janela extends JFrame {
 
         // Fazer get dos cachorros e setar a posição para 0
         updateArrayListCachorros();
-        this.posicaoCachorroAtual = -1; // Nenhum cachorro na lista
+        if (listaCachorros.isEmpty()) posicaoCachorroAtual = -1; // Nenhum cachorro na lista
+        else posicaoCachorroAtual = 0; // Estamos no primeiro cachorro da lista
 
         this.operacaoAtual = Operacao.NAVEGANDO;
         this.VerificarHabilitacaoControles();
@@ -206,8 +213,10 @@ public class Janela extends JFrame {
         // Método que será responsável por ler a posição atual do cachorro e colocar seus dados nos campos
         // além de testar se os botoes Proximo e Anterior deverão ser (des)habilitados
 
-        if (operacaoAtual == Operacao.NAVEGANDO) {
-            if (this.listaCachorros.isEmpty()) {
+        if (operacaoAtual == Operacao.NAVEGANDO)
+        {
+            if (this.listaCachorros.isEmpty())
+            {
                 // Lista vazia, não pode navegar
                 btnProximo.setEnabled(false);
                 btnAnterior.setEnabled(false);
@@ -355,6 +364,10 @@ public class Janela extends JFrame {
 
                     // O ArrayList de cachorros deve ser atualizado
                     updateArrayListCachorros();
+
+                    // Como acabamos de inserir no banco de dados, o cachorro inserido será o último da lista, e ao setar
+                    // posicaoCachorroAtual para o tamanho da lista - 1, estaremos carregando os dados do último cachorro
+                    posicaoCachorroAtual = listaCachorros.size() - 1;
                 }
                 else if (operacaoAtual == Operacao.ATUALIZANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
@@ -373,6 +386,8 @@ public class Janela extends JFrame {
 
                     // O ArrayList de cachorros deve ser atualizado
                     updateArrayListCachorros();
+
+                    // Precisa de regra de negocio
                 }
                 else if (operacaoAtual == Operacao.BUSCANDO) {
                     cachorro = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));

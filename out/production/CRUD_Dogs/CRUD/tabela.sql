@@ -1,5 +1,5 @@
 create table CRUD_Dogs.Cachorro(
-  id int identity(1,1) primary key,
+  id int identity(0,1) primary key,
   nome varchar(15) not null,
   raca varchar(40) not null,
   idade tinyint not null,
