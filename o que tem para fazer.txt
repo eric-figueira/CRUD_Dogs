@@ -1,6 +1,4 @@
 - btnCancelar limpa tudo - o Éric quer fazer esse
-- Consertar erro textArea - o Éric vai ter que fazer pq eu nn consigo acessar o bd
 - focusLost dos campos integer e short - mas o Marcos vai fazer
-
-- O MALIGNO DISSE QUE PRECISA DE UM CAMPO COMPLEMENTO VARCHAR(30) NOT NULL NO BANCO DE DADOS,
-POR FAVOR ADICIONA ISSO DEPOIS ERIC, EU TO MUDANDO OS DBOS E DAOS PARA ADAPTAR O PROJETO AO QUE ELE PEDIU, E O FORMS
+- Regra de negocio para o deletar
+- posicaoAtual dá problema
