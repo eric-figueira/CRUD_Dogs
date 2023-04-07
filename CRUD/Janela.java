@@ -217,6 +217,7 @@ public class Janela extends JFrame {
         txtCep          .setText("");
         spNumero        .setValue(0);
         txtComplemento  .setText("");
+        txtLogradouro   .setText("");
     }
 
     private void VerificarPosicaoCachorroEPreencherCampos() {
@@ -380,50 +381,54 @@ public class Janela extends JFrame {
         public void actionPerformed(ActionEvent e) {
             try
             {
-                String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
-                        + txtCep.getText().substring(7, 10);
-                Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(),
-                        Short.parseShort(spIdadeCachorro.getValue().toString()),
-                        Float.parseFloat(spPeso.getValue().toString()), cbPorte.getSelectedItem() + "",
-                        txtCor.getText(), txtNomeDono.getText(), cep,
-                        Short.parseShort(spNumero.getValue().toString()), txtComplemento.getText());
+                if (operacaoAtual != Operacao.BUSCANDO)
+                {
+                    String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
+                            + txtCep.getText().substring(7, 10);
+                    Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(),
+                            Short.parseShort(spIdadeCachorro.getValue().toString()),
+                            Float.parseFloat(spPeso.getValue().toString()), cbPorte.getSelectedItem() + "",
+                            txtCor.getText(), txtNomeDono.getText(), cep,
+                            Short.parseShort(spNumero.getValue().toString()), txtComplemento.getText());
 
-                if (operacaoAtual == Operacao.INSERINDO) {
-                    Cachorros.inserir(cachorro);
+                    if (operacaoAtual == Operacao.INSERINDO) {
+                        Cachorros.inserir(cachorro);
 
-                    JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
-                    // O ArrayList de cachorros deve ser atualizado
-                    updateArrayListCachorros();
+                        // O ArrayList de cachorros deve ser atualizado
+                        updateArrayListCachorros();
 
-                    // Como acabamos de inserir no banco de dados, o cachorro inserido será o último da lista, e ao setar
-                    // posicaoCachorroAtual para o tamanho da lista - 1, estaremos carregando os dados do último cachorro
-                    posicaoCachorroAtual = listaCachorros.size() - 1;
+                        // Como acabamos de inserir no banco de dados, o cachorro inserido será o último da lista, e ao setar
+                        // posicaoCachorroAtual para o tamanho da lista - 1, estaremos carregando os dados do último cachorro
+                        posicaoCachorroAtual = listaCachorros.size() - 1;
+                    } else if (operacaoAtual == Operacao.ATUALIZANDO) {
+                        cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                        Cachorros.atualizar(cachorro);
+
+                        JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                        // O ArrayList de cachorros deve ser atualizado
+                        updateArrayListCachorros();
+                    } else if (operacaoAtual == Operacao.DELETANDO) {
+                        cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                        Cachorros.excluir(cachorro);
+
+                        JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                        // se você deletou um cachorro a posição é decrementada
+                        posicaoCachorroAtual -= 1;
+
+                        // O ArrayList de cachorros deve ser atualizado
+                        updateArrayListCachorros();
+                    }
                 }
-                else if (operacaoAtual == Operacao.ATUALIZANDO) {
-                    cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
-                    Cachorros.atualizar(cachorro);
-
-                    JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-
-                    // O ArrayList de cachorros deve ser atualizado
-                    updateArrayListCachorros();
-                }
-                else if (operacaoAtual == Operacao.DELETANDO) {
-                    cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
-                    Cachorros.excluir(cachorro);
-
-                    JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-
-                    // se você deletou um cachorro a posição é decrementada
-                    posicaoCachorroAtual -= 1;
-
-                    // O ArrayList de cachorros deve ser atualizado
-                    updateArrayListCachorros();
-                }
-                else if (operacaoAtual == Operacao.BUSCANDO) {
-                    cachorro = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
-                    posicaoCachorroAtual = listaCachorros.indexOf(cachorro);
+                // Foi necessário fazer essa divisão pois ao clicar em Buscar, lá em cima tentava instanciar um cachorro
+                // mas pelo fato de não ter os outros dados exceto o Id, não estava dando certo
+                else
+                {
+                    Cachorro c = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                    posicaoCachorroAtual = listaCachorros.indexOf(c);
                 }
 
                 // Depois que o usuário fez o que tinha que fazer, tem que voltar para o modo de navegação
@@ -459,6 +464,9 @@ public class Janela extends JFrame {
         public void actionPerformed(ActionEvent e) {
             operacaoAtual = Operacao.BUSCANDO;
             VerificarHabilitacaoControles();
+
+            // Os campos serão limpos para que, quando o usuário digitar o Id, o resto das informações sejam mostradas
+            LimparCampos();
         }
     }
 
