@@ -234,21 +234,16 @@ public class Janela extends JFrame {
             }
             else
             {
-                if (posicaoCachorroAtual == 0 || posicaoCachorroAtual == listaCachorros.size() - 1)
-                {
-                    if (posicaoCachorroAtual == listaCachorros.size() - 1) {
-                        // Se estiver na última posição, não pode ir para o próximo
-                        btnProximo.setEnabled(false);
-                    }
-                    if (posicaoCachorroAtual == 0) {
-                        // Se estiver na primeira posição, não pode ir para o anterior
-                        btnAnterior.setEnabled(false);
-                    }
+                btnProximo.setEnabled(true);
+                btnAnterior.setEnabled(true);
+
+                if (posicaoCachorroAtual == listaCachorros.size() - 1) {
+                    // Se estiver na última posição, não pode ir para o próximo
+                    btnProximo.setEnabled(false);
                 }
-                else
-                {
-                    btnProximo.setEnabled(true);
-                    btnAnterior.setEnabled(true);
+                if (posicaoCachorroAtual == 0) {
+                    // Se estiver na primeira posição, não pode ir para o anterior
+                    btnAnterior.setEnabled(false);
                 }
 
                 // Pegar as informações do cachorro nessa posição
@@ -278,6 +273,11 @@ public class Janela extends JFrame {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO AO ACESSAR CACHORRO!", JOptionPane.ERROR_MESSAGE);
                 }
             }
+        }
+        else {
+            // Não está navegando, portanto temos que desabilitar os botões de navegação
+            btnProximo.setEnabled(false);
+            btnAnterior.setEnabled(false);
         }
     }
 
