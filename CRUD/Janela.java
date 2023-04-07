@@ -64,7 +64,7 @@ public class Janela extends JFrame {
                        spPeso          = new JSpinner(new SpinnerNumberModel(0, 0, 110, 0.1));
 
     String[] portes = { "Mini", "Pequeno", "Médio", "Grande", "Gigante" };
-    protected JComboBox cbPorte = new JComboBox(portes); // combobox para auxiliar o usuário
+    protected JComboBox<String> cbPorte = new JComboBox<>(portes); // combobox para auxiliar o usuário
 
     // JList onde serão exibidos os dados do CEP
     protected JTextArea txtLogradouro = new JTextArea();
@@ -92,7 +92,7 @@ public class Janela extends JFrame {
             MaskFormatter mascaraCEP = new MaskFormatter("##.###-###");
             txtCep = new JFormattedTextField(mascaraCEP);
         }
-        catch (Exception ex) { }
+        catch (Exception ignored) { }
 
         this.txtLogradouro.setEditable(false); // O usuário não poderá alterar os dados de endereço NUNCA
         this.txtLogradouro.setLineWrap(true);
@@ -267,7 +267,7 @@ public class Janela extends JFrame {
                     spPeso          .setValue(r.getPeso());
 
                     // Mostrar logradouro no textarea
-                    // Por algum motivo, o CEP estava sendo salvo com espaço no final, o que fazia a requisição da api retornar erro
+                    // Por algum motivo, o CEP era salvo com espaço no final, o que fazia a requisição da api retornar erro
                     MostrarLogradouro(r.getCep().trim());
 
                 } catch (Exception e) {
@@ -276,7 +276,7 @@ public class Janela extends JFrame {
             }
         }
         else {
-            // Não está navegando, portanto temos que desabilitar os botões de navegação
+            // Não navega, portanto, temos que desabilitar os botões de navegação
             btnProximo.setEnabled(false);
             btnAnterior.setEnabled(false);
         }
@@ -300,7 +300,7 @@ public class Janela extends JFrame {
 
         btnInserir  .setEnabled(!podeHabilitar);
 
-        // caso não haja cachorros ainda cadastrados, o usuário não pode realizar nennuma ação exceto incluir
+        // caso não haja cachorros ainda cadastrados, o usuário não pode realizar nenhuma ação exceto incluir
         boolean pode = !listaCachorros.isEmpty();
         btnBuscar   .setEnabled(pode);
         btnDeletar  .setEnabled(pode);
@@ -309,7 +309,7 @@ public class Janela extends JFrame {
         btnSalvar   .setEnabled(podeHabilitar);
         btnCancelar .setEnabled(podeHabilitar);
 
-        // btnProximo e btnAnterior vão estar sendo setados pelo método VerificarPosicaoCachorroEPreencherCampos
+        // btnProximo e btnAnterior vão estar a ser setados pelo método VerificarPosicaoCachorroEPreencherCampos
         VerificarPosicaoCachorroEPreencherCampos();
 
         btnSalvar.setText("Salvar"); // Setamos para o texto padrão
@@ -318,6 +318,13 @@ public class Janela extends JFrame {
 
         if (this.operacaoAtual != Operacao.NAVEGANDO)
         {
+            // como o usuário já selecionou uma opção, para voltar a navegação ele terá de clicar em cancelar,
+            // então impedimos o mesmo de realizar as outras operações
+            btnInserir.setEnabled(false);
+            btnBuscar.setEnabled(false);
+            btnAtualizar.setEnabled(false);
+            btnDeletar.setEnabled(false);
+
             if (this.operacaoAtual == Operacao.INSERINDO || this.operacaoAtual == Operacao.ATUALIZANDO) {
                 // Digitará tudo, menos o IdCachorro (nas duas operações)
                 txtIdCachorro   .setEditable(false);
@@ -371,7 +378,7 @@ public class Janela extends JFrame {
         }
     }
 
-    protected class FechamentoDeJanela extends WindowAdapter {
+    protected static class FechamentoDeJanela extends WindowAdapter {
         public void windowClosing(WindowEvent e) {
             System.exit(0);
         }
@@ -379,6 +386,17 @@ public class Janela extends JFrame {
 
     protected class Salvar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+            if (txtNomeCachorro.getText().equals("") || txtRaca.getText().equals("") ||
+                    Short.parseShort(spIdadeCachorro.getValue().toString()) == 0 ||
+                    Float.parseFloat(spPeso.getValue().toString()) == 0F ||
+                    txtCor.getText().equals("") || txtNomeDono.getText().equals("") || txtCep.getText().equals("") ||
+                    Short.parseShort(spNumero.getValue().toString()) == 0 || txtComplemento.getText().equals(""))
+            {
+                JOptionPane.showMessageDialog(
+                        null, "Preencha todos os campos corretamente!", "Erro!",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
             try
             {
                 if (operacaoAtual != Operacao.BUSCANDO)
@@ -423,10 +441,17 @@ public class Janela extends JFrame {
                         updateArrayListCachorros();
                     }
                 }
-                // Foi necessário fazer essa divisão pois ao clicar em Buscar, lá em cima tentava instanciar um cachorro
-                // mas pelo fato de não ter os outros dados exceto o Id, não estava dando certo
+                // Foi necessário fazer essa divisão, pois ao clicar em Buscar, lá em cima tentava instanciar um cachorro,
+                // mas pelo fato de não ter os outros dados exceto o Id, não dava certo
                 else
                 {
+                    if (txtIdCachorro.getText().equals(""))
+                    {
+                        JOptionPane.showMessageDialog(
+                                null, "Preencha todos os campos corretamente!", "Erro!",
+                                JOptionPane.WARNING_MESSAGE);
+                        return;
+                    }
                     Cachorro c = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
                     posicaoCachorroAtual = listaCachorros.indexOf(c);
                 }
@@ -485,7 +510,7 @@ public class Janela extends JFrame {
             // habilitados e limpos, mas o usuário decidiu cancelar a operação, precisamos recolocar
             // os dados que antes estavam na tela. O método abaixo chama o método que faz isso
 
-            // Antes de colocar os dados novamente, precisamos limpar os que ele tinha colocado anteriormente
+            // Antes de colocar os dados novamente, precisamos limpar os que o usuário colocara anteriormente
             LimparCampos();
 
             VerificarHabilitacaoControles();

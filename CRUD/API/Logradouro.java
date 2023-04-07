@@ -126,17 +126,17 @@ public class Logradouro
     {
         return "Logradouro: "+
                this.logradouro+
-                "\nBairro.....: "+
+                "\n\nBairro....: "+
                 this.bairro+
-               "\nCidade.....: "+
+               "\n\nCidade....: "+
                this.cidade+
                "\n"+
                this.cidade_info+
-               "\nEstado.....: "+
+               "\n\nEstado....: "+
                this.estado+
                "\n"+
                this.estado_info+
-               "\nC.E.P......: "+
+               "\n\nC.E.P.....: "+
                this.cep;
     }
 
