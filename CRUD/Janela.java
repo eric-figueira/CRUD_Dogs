@@ -79,13 +79,7 @@ public class Janela extends JFrame {
     }
 
     public void updateArrayListCachorros() {
-        try
-        {
-            this.listaCachorros = Cachorros.getArrayListCachorros();
-
-            System.out.println(listaCachorros.isEmpty());
-            System.out.println(posicaoCachorroAtual);
-        }
+        try { this.listaCachorros = Cachorros.getArrayListCachorros(); }
         catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
     }
 
@@ -198,7 +192,7 @@ public class Janela extends JFrame {
         ctnForm.add(dgBottom, BorderLayout.SOUTH);
 
         // Fazer get dos cachorros e setar a posição para 0
-        //updateArrayListCachorros();
+        updateArrayListCachorros();
         if (listaCachorros.isEmpty()) posicaoCachorroAtual = -1; // Nenhum cachorro na lista
         else posicaoCachorroAtual = 0; // Estamos no primeiro cachorro da lista
 
@@ -240,18 +234,29 @@ public class Janela extends JFrame {
             }
             else
             {
-                if (posicaoCachorroAtual == listaCachorros.size() - 1) {
-                    // Se estiver na última posição, não pode ir para o próximo
-                    btnProximo.setEnabled(false);
+                if (posicaoCachorroAtual == 0 || posicaoCachorroAtual == listaCachorros.size() - 1)
+                {
+                    if (posicaoCachorroAtual == listaCachorros.size() - 1) {
+                        // Se estiver na última posição, não pode ir para o próximo
+                        btnProximo.setEnabled(false);
+                    }
+                    if (posicaoCachorroAtual == 0) {
+                        // Se estiver na primeira posição, não pode ir para o anterior
+                        btnAnterior.setEnabled(false);
+                    }
                 }
-                if (posicaoCachorroAtual == 0) {
-                    // Se estiver na primeira posição, não pode ir para o anterior
-                    btnAnterior.setEnabled(false);
+                else
+                {
+                    btnProximo.setEnabled(true);
+                    btnAnterior.setEnabled(true);
                 }
 
                 // Pegar as informações do cachorro nessa posição
-                try {
-                    Cachorro r = Cachorros.getCachorro(posicaoCachorroAtual);
+                try
+                {
+                    // Precisamos pegar o cachorro a partir do ArrayList, e nao do banco de dados, pois
+                    // não necessariamente haverá um cachorro com o id 0, 1, 2
+                    Cachorro r = listaCachorros.get(posicaoCachorroAtual);
 
                     txtIdCachorro   .setText(r.getIdCachorro() + "");
                     txtNomeCachorro .setText(r.getNome());
@@ -260,12 +265,14 @@ public class Janela extends JFrame {
                     txtCor          .setText(r.getCor());
                     txtNomeDono     .setText(r.getDono());
                     txtCep          .setText(r.getCep());
+                    txtComplemento  .setText(r.getComplemento());
                     spIdadeCachorro .setValue(r.getIdade());
                     spNumero        .setValue(r.getNumeroCasa());
                     spPeso          .setValue(r.getPeso());
 
                     // Mostrar logradouro no textarea
-                    MostrarLogradouro(r.getCep());
+                    // Por algum motivo, o CEP estava sendo salvo com espaço no final, o que fazia a requisição da api retornar erro
+                    MostrarLogradouro(r.getCep().trim());
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO AO ACESSAR CACHORRO!", JOptionPane.ERROR_MESSAGE);
@@ -371,7 +378,8 @@ public class Janela extends JFrame {
 
     protected class Salvar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            try {
+            try
+            {
                 String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
                         + txtCep.getText().substring(7, 10);
                 Cachorro cachorro = new Cachorro(-1, txtNomeCachorro.getText(), txtRaca.getText(),
@@ -386,7 +394,7 @@ public class Janela extends JFrame {
                     JOptionPane.showMessageDialog(null, "Inserção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
                     // O ArrayList de cachorros deve ser atualizado
-                    //updateArrayListCachorros();
+                    updateArrayListCachorros();
 
                     // Como acabamos de inserir no banco de dados, o cachorro inserido será o último da lista, e ao setar
                     // posicaoCachorroAtual para o tamanho da lista - 1, estaremos carregando os dados do último cachorro
@@ -399,7 +407,7 @@ public class Janela extends JFrame {
                     JOptionPane.showMessageDialog(null, "Atualização feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
                     // O ArrayList de cachorros deve ser atualizado
-                    //updateArrayListCachorros();
+                    updateArrayListCachorros();
                 }
                 else if (operacaoAtual == Operacao.DELETANDO) {
                     cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
@@ -411,9 +419,7 @@ public class Janela extends JFrame {
                     posicaoCachorroAtual -= 1;
 
                     // O ArrayList de cachorros deve ser atualizado
-                    //updateArrayListCachorros();
-
-                    // Precisa de regra de negocio
+                    updateArrayListCachorros();
                 }
                 else if (operacaoAtual == Operacao.BUSCANDO) {
                     cachorro = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
@@ -468,8 +474,12 @@ public class Janela extends JFrame {
             operacaoAtual = Operacao.NAVEGANDO;
 
             // O usuário tinha (ou não) dados da tela, decidiu fazer alguma operação, os campos foram
-            // habilitados/limpos, mas o usuário decidiu cancelar a operação, precisamos recolocar
+            // habilitados e limpos, mas o usuário decidiu cancelar a operação, precisamos recolocar
             // os dados que antes estavam na tela. O método abaixo chama o método que faz isso
+
+            // Antes de colocar os dados novamente, precisamos limpar os que ele tinha colocado anteriormente
+            LimparCampos();
+
             VerificarHabilitacaoControles();
         }
     }
