@@ -3,6 +3,7 @@
   <component name="ChangeListManager">
     <list default="true" id="462b964e-ff32-4502-bff3-4a02ee580ca1" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/Janela.java" beforeDir="false" afterPath="$PROJECT_DIR$/Janela.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/BDSQLServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/bd/BDSQLServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +25,7 @@
   "keyToString": {
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/mcsgo/OneDrive/Documentos/GitHub/CRUD_Dogs/CRUD/API/jackson-all-1.9.0.jar",
+    "last_opened_file_path": "C:/Users/mcsgo/OneDrive/Documentos/GitHub/CRUD_Dogs/CRUD/sqljdbc4.jar",
     "project.structure.last.edited": "Modules",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2"

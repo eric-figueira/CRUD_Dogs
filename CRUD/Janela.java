@@ -232,6 +232,9 @@ public class Janela extends JFrame {
                 btnProximo.setEnabled(false);
                 btnAnterior.setEnabled(false);
                 // Também não lemos nenhum dado
+
+                // Caso acabamos de deletar o único cachorro da lista, precisamos limpar a tela
+                LimparCampos();
             }
             else
             {
@@ -386,17 +389,6 @@ public class Janela extends JFrame {
 
     protected class Salvar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            if (txtNomeCachorro.getText().equals("") || txtRaca.getText().equals("") ||
-                    Short.parseShort(spIdadeCachorro.getValue().toString()) == 0 ||
-                    Float.parseFloat(spPeso.getValue().toString()) == 0F ||
-                    txtCor.getText().equals("") || txtNomeDono.getText().equals("") || txtCep.getText().equals("") ||
-                    Short.parseShort(spNumero.getValue().toString()) == 0 || txtComplemento.getText().equals(""))
-            {
-                JOptionPane.showMessageDialog(
-                        null, "Preencha todos os campos corretamente!", "Erro!",
-                        JOptionPane.WARNING_MESSAGE);
-                return;
-            }
             try
             {
                 if (operacaoAtual != Operacao.BUSCANDO)
@@ -434,8 +426,16 @@ public class Janela extends JFrame {
 
                         JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
 
-                        // se você deletou um cachorro a posição é decrementada
-                        posicaoCachorroAtual -= 1;
+                        // Se tem 1 elemento na lista, a posição tem que ir para -1 pois nao ha cachorro ha ser mostrado
+                        if (listaCachorros.size() == 1)
+                            posicaoCachorroAtual = -1;
+                        else {
+                            // Se estiver numa posicao maior que 0, decrementamos 1, pois caso esteja na 1a
+                            // posicao, permanecemos ali, pois quando o arraylist for atualizado, os dados serao
+                            // "movidos" 1 posicao anterior, portanto nao precisamos mudar a posicao quando estiver 1a
+                            if (posicaoCachorroAtual > 0)
+                                posicaoCachorroAtual -= 1;
+                        }
 
                         // O ArrayList de cachorros deve ser atualizado
                         updateArrayListCachorros();
