@@ -420,7 +420,9 @@ public class Janela extends JFrame {
 
                         // O ArrayList de cachorros deve ser atualizado
                         updateArrayListCachorros();
-                    } else if (operacaoAtual == Operacao.DELETANDO) {
+                    }
+                    else if (operacaoAtual == Operacao.DELETANDO)
+                    {
                         cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
                         Cachorros.excluir(cachorro);
 
@@ -504,16 +506,21 @@ public class Janela extends JFrame {
 
     protected class Cancelar implements ActionListener {
         public void actionPerformed(ActionEvent e) {
-            operacaoAtual = Operacao.NAVEGANDO;
-
             // O usuário tinha (ou não) dados da tela, decidiu fazer alguma operação, os campos foram
             // habilitados e limpos, mas o usuário decidiu cancelar a operação, precisamos recolocar
             // os dados que antes estavam na tela. O método abaixo chama o método que faz isso
 
             // Antes de colocar os dados novamente, precisamos limpar os que o usuário colocara anteriormente
-            LimparCampos();
+            // confirmando a ação do usuário
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Deseja Cancelar a operação? Todos os dados serão perdidos!","PERIGO!", dialogButton);
 
-            VerificarHabilitacaoControles();
+            if (dialogResult == JOptionPane.YES_OPTION)
+            {
+                operacaoAtual = Operacao.NAVEGANDO;
+                LimparCampos();
+                VerificarHabilitacaoControles();
+            }
         }
     }
 
@@ -549,6 +556,7 @@ public class Janela extends JFrame {
 
     protected class MostrarLogradouro extends FocusAdapter {
         public void focusLost(FocusEvent e) {
+            System.out.println("----1");
             if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
                 String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
                         + txtCep.getText().substring(7, 10);
