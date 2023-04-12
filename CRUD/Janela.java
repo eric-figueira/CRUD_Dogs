@@ -421,27 +421,6 @@ public class Janela extends JFrame {
                         // O ArrayList de cachorros deve ser atualizado
                         updateArrayListCachorros();
                     }
-                    else if (operacaoAtual == Operacao.DELETANDO)
-                    {
-                        cachorro.setIdCachorro(Integer.parseInt(txtIdCachorro.getText()));
-                        Cachorros.excluir(cachorro);
-
-                        JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
-
-                        // Se tem 1 elemento na lista, a posição tem que ir para -1 pois nao ha cachorro ha ser mostrado
-                        if (listaCachorros.size() == 1)
-                            posicaoCachorroAtual = -1;
-                        else {
-                            // Se estiver numa posicao maior que 0, decrementamos 1, pois caso esteja na 1a
-                            // posicao, permanecemos ali, pois quando o arraylist for atualizado, os dados serao
-                            // "movidos" 1 posicao anterior, portanto nao precisamos mudar a posicao quando estiver 1a
-                            if (posicaoCachorroAtual > 0)
-                                posicaoCachorroAtual -= 1;
-                        }
-
-                        // O ArrayList de cachorros deve ser atualizado
-                        updateArrayListCachorros();
-                    }
                 }
                 // Foi necessário fazer essa divisão, pois ao clicar em Buscar, lá em cima tentava instanciar um cachorro,
                 // mas pelo fato de não ter os outros dados exceto o Id, não dava certo
@@ -498,8 +477,45 @@ public class Janela extends JFrame {
     }
 
     protected class Deletar implements ActionListener {
-        public void actionPerformed(ActionEvent e) {
-            operacaoAtual = Operacao.DELETANDO;
+        public void actionPerformed(ActionEvent e)
+        {
+            int dialogButton = JOptionPane.YES_NO_OPTION;
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Deseja deletar o cachorro? Todos os dados serão perdidos!","PERIGO!", dialogButton);
+
+            if (dialogResult == JOptionPane.YES_OPTION)
+            {
+                try
+                {
+                    String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
+                            + txtCep.getText().substring(7, 10);
+                    Cachorro cachorro = new Cachorro(Integer.parseInt(txtIdCachorro.getText()), txtNomeCachorro.getText(), txtRaca .getText(), Short.parseShort(spIdadeCachorro.getValue().toString()),
+                            Float.parseFloat(spPeso.getValue().toString()), cbPorte.getSelectedItem() + "",
+                            txtCor.getText(), txtNomeDono.getText(), cep, Short.parseShort(spNumero.getValue().toString()), txtComplemento.getText());
+
+                    Cachorros.excluir(cachorro);
+
+                    JOptionPane.showMessageDialog(null, "Deleção feita com êxito!", "Sucesso!", JOptionPane.INFORMATION_MESSAGE);
+
+                    // Se tem 1 elemento na lista, a posição tem que ir para -1 pois nao ha cachorro ha ser mostrado
+                    if (listaCachorros.size() == 1)
+                        posicaoCachorroAtual = -1;
+                    else {
+                        // Se estiver numa posicao maior que 0, decrementamos 1, pois caso esteja na 1a
+                        // posicao, permanecemos ali, pois quando o arraylist for atualizado, os dados serao
+                        // "movidos" 1 posicao anterior, portanto nao precisamos mudar a posicao quando estiver 1a
+                        if (posicaoCachorroAtual > 0)
+                            posicaoCachorroAtual -= 1;
+                    }
+
+                    // O ArrayList de cachorros deve ser atualizado
+                    updateArrayListCachorros();
+                }
+                catch (Exception erro) {
+                    JOptionPane.showMessageDialog(null, erro.getMessage(), "ERRO AO CONCLUIR OPERAÇÃO!", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+
+            operacaoAtual = Operacao.NAVEGANDO;
             VerificarHabilitacaoControles();
         }
     }
@@ -513,7 +529,7 @@ public class Janela extends JFrame {
             // Antes de colocar os dados novamente, precisamos limpar os que o usuário colocara anteriormente
             // confirmando a ação do usuário
             int dialogButton = JOptionPane.YES_NO_OPTION;
-            int dialogResult = JOptionPane.showConfirmDialog (null, "Deseja Cancelar a operação? Todos os dados serão perdidos!","PERIGO!", dialogButton);
+            int dialogResult = JOptionPane.showConfirmDialog (null, "Deseja cancelar a operação? As mudanças serão perdidas!","PERIGO!", dialogButton);
 
             if (dialogResult == JOptionPane.YES_OPTION)
             {
@@ -556,7 +572,6 @@ public class Janela extends JFrame {
 
     protected class MostrarLogradouro extends FocusAdapter {
         public void focusLost(FocusEvent e) {
-            System.out.println("----1");
             if (operacaoAtual == Operacao.INSERINDO || operacaoAtual == Operacao.ATUALIZANDO) {
                 String cep = txtCep.getText().substring(0, 2) + txtCep.getText().substring(3, 6)
                         + txtCep.getText().substring(7, 10);

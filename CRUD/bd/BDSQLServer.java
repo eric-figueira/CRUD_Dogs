@@ -13,7 +13,7 @@ public class BDSQLServer {
             comando = new MeuPreparedStatement(
                     "com.microsoft.sqlserver.jdbc.SQLServerDriver",
                     "jdbc:sqlserver://regulus.cotuca.unicamp.br:1433;databasename=BD22156",
-                    "BD22156", "horadecolocareucoloco");
+                    "BD22156", "");
         } catch (Exception erro) {
             System.err.println("Problemas de conexao com o BD");
             System.exit(0); // aborta o programa
