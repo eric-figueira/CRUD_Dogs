@@ -1,1 +1,1 @@
-  
+const bdConfig = require('./dbconfig')
