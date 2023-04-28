@@ -5,7 +5,14 @@
 
 const express = require('express')
 const router = express.Router()
+const controller = require('../controllers/controller')
 
-router.get('/rota', controller.funcao)
+
+router.get('/cachorros',     controller.recuperarTodos)
+router.get('/cachorros/:id', controller.recuperarUm)
+router.post('/cachorros',    controller.inserir)
+router.put('/cachorros/:id', controller.atualizar)
+router.put('/cachorros/:id', controller.deletar)
+
 
 module.exports = router

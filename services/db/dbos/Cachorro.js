@@ -137,3 +137,10 @@ class Cachorro {
     this.#peso = peso;
   }
 }
+
+function novoCachorro (idCachorro, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
+{
+  return new Cachorro(idCachorro, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
+}
+
+module.exports = { novoCachorro }
