@@ -61,4 +61,4 @@ function novo (codigo,mensagem,descricao)
     return new Comunicado (codigo,mensagem,descricao);
 }
 
-export default {novo}
+module.exports = {novo}

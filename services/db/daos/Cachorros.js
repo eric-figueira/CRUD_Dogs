@@ -1,6 +1,6 @@
-import { getConexao } from '../db';
+const { getConexao } = require('../db');
 
-export async function insere(cachorro) {
+async function insere(cachorro) {
     const conexao = await getConexao();
     if (conexao == null) return null;
 
@@ -15,7 +15,7 @@ export async function insere(cachorro) {
     }
 }
 
-export async function atualiza(cachorro) {
+async function atualiza(cachorro) {
     const conexao = await getConexao();
     if (conexao == null)
         return null;
@@ -31,7 +31,7 @@ export async function atualiza(cachorro) {
     }
 }
 
-export async function deleta(id) {
+async function deleta(id) {
     const conexao = await getConexao();
     if (conexao == null)
         return null;
@@ -47,7 +47,7 @@ export async function deleta(id) {
     }
 }
 
-export async function recuperaUm(id) {
+async function recuperaUm(id) {
     const conexao = await getConexao();
     if (conexao == null)
         return null;
@@ -63,7 +63,7 @@ export async function recuperaUm(id) {
     }
 }
 
-export async function recuperaTodos() {
+async function recuperaTodos() {
     const conexao = await getConexao();
     if (conexao == null)
         return null;
@@ -77,3 +77,6 @@ export async function recuperaTodos() {
         return false;
     }
 }
+
+
+module.exports = { insere, atualiza, deleta, recuperaUm, recuperaTodos }

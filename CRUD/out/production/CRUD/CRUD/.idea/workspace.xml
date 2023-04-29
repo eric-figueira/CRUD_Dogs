@@ -2,13 +2,26 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="462b964e-ff32-4502-bff3-4a02ee580ca1" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/API/ClienteWS.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/ClienteWS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Janela.java" beforeDir="false" afterPath="$PROJECT_DIR$/Janela.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/BDSQLServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/bd/BDSQLServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/BDSQLServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/core/MeuPreparedStatement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/core/MeuResultSet.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/core/MeuStatement.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/bd/daos/Cachorros.java" beforeDir="false" afterPath="$PROJECT_DIR$/bd/daos/Cachorros.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../services/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../services/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
@@ -21,16 +34,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/mcsgo/OneDrive/Documentos/GitHub/CRUD_Dogs/CRUD/sqljdbc4.jar",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/mcsgo/OneDrive/Documentos/GitHub/CRUD_Dogs/services&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="Program" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="CRUD.Program" />
@@ -59,6 +73,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1680746479077</updated>
+      <workItem from="1681659215373" duration="17000" />
     </task>
     <servers />
   </component>

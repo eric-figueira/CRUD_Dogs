@@ -86,22 +86,22 @@ class Cachorro {
     this.#cor = cor
   }
 
-  set dono(nomeDono) {
-    if (nomeDono === undefined || typeof nomeDono !== 'string' || nomeDono === "")
+  set dono(nome) {
+    if (nome === undefined || typeof nome !== 'string' || nome === "")
       throw ('Nome do Dono do Cachorro inválido!')
 
-    if (nomeDono.length > 30)
-      nomeDono = nomeDono.substring(0, 30)
+    if (nome.length > 30)
+      nome = nome.substring(0, 30)
 
-    this.#nomeDono = nomeDono
+    this.#nome = nome
   }
 
   set cep(cep) {
     if (cep === undefined || typeof cep !== 'string' || cep === "")
       throw ('CEP da residência do cachorro inválido!')
 
-    if (nomeDono.length > 9)
-      nomeDono = nomeDono.substring(0, 9)
+    if (nome.length > 9)
+      nome = nome.substring(0, 9)
 
     this.#cep = cep
   }
@@ -143,4 +143,5 @@ function novoCachorro (id, nome, raca, porte, cor, dono, cep, complemento, idade
   return new Cachorro(id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
 }
 
-export default { novoCachorro }
+
+module.exports = { novoCachorro }

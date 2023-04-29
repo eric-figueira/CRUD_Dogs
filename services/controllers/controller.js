@@ -4,9 +4,9 @@
     e chamar o DAO para fazer a operação no banco de dados 
 */
 
-import Cachorro from '../db/dbos/cachorro';
-import { atualiza, deleta, insere, recuperaTodos, recuperaUm } from '../db/daos/Cachorros';
-import Comunicado from '../models/comunicado';
+const Cachorro = require('../db/dbos/cachorro');
+const { atualiza, deleta, insere, recuperaTodos, recuperaUm } = require('../db/daos/Cachorros');
+const Comunicado = require('../models/comunicado');
 
 async function inserir(req, res) 
 {
@@ -225,4 +225,4 @@ async function recuperarTodos(req, res)
   return res.status(200).json(ret);
 }
 
-export default { inserir, atualizar, deletar, recuperarUm, recuperarTodos }
+module.exports = { inserir, atualizar, deletar, recuperarUm, recuperarTodos }
