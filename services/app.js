@@ -1,11 +1,11 @@
-const express = require('express')
-const rotas = require('./routes/routes')
+import express, { json } from 'express'
+import rotas from './routes/routes'
 
 const port = 3000
 const app = express()
 
 
-app.use(express.json())
+app.use(json())
 app.use('/', rotas)
 
 

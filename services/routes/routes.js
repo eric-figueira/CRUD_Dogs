@@ -3,16 +3,16 @@
     das requisições e chamar as funções correspondentes no controller
 */
 
-const express = require('express')
-const router = express.Router()
-const controller = require('../controllers/controller')
+import { Router } from 'express'
+const router = Router()
+import { recuperarTodos, recuperarUm, inserir, atualizar, deletar } from '../controllers/controller'
 
 
-router.get('/cachorros',     controller.recuperarTodos)
-router.get('/cachorros/:id', controller.recuperarUm)
-router.post('/cachorros',    controller.inserir)
-router.put('/cachorros/:id', controller.atualizar)
-router.put('/cachorros/:id', controller.deletar)
+router.get('/cachorros', recuperarTodos)
+router.get('/cachorros/:id', recuperarUm)
+router.post('/cachorros', inserir)
+router.put('/cachorros/:id', atualizar)
+router.delete('/cachorros/:id', deletar)
 
 
-module.exports = router
+export default router

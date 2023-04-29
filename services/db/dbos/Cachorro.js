@@ -1,5 +1,5 @@
 class Cachorro {
-  #idCachorro
+  #id
   #nome
   #raca
   #porte
@@ -11,9 +11,9 @@ class Cachorro {
   #numeroCasa
   #peso
 
-  constructor(idCachorro, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso) 
+  constructor(id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso) 
   {
-    this.idCachorro = idCachorro,
+    this.id = id,
     this.nome = nome,
     this.raca = raca,
     this.porte = porte,
@@ -26,7 +26,7 @@ class Cachorro {
     this.peso = peso
   }
 
-  get idCachorro() { return this.#idCachorro }
+  get id() { return this.#id }
   get nome() { return this.#nome }
   get raca() { return this.#raca }
   get porte() { return this.#porte }
@@ -38,12 +38,12 @@ class Cachorro {
   get numeroCasa() { return this.#numeroCasa }
   get peso() { return this.#peso }
 
-  set idCachorro(id) {
+  set id(id) {
     // -1 vai indicar que não há nenhum cachorro na lista, e 0 será a 1a posição
     if (id === undefined || typeof id !== 'number' || isNaN(id) || id !== parseInt(id) || id < -1)
       throw ('Id do Cachorro inválido!')
 
-    this.#idCachorro = id
+    this.#id = id
   }
 
   set nome(nome) {
@@ -138,9 +138,9 @@ class Cachorro {
   }
 }
 
-function novoCachorro (idCachorro, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
+function novoCachorro (id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
 {
-  return new Cachorro(idCachorro, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
+  return new Cachorro(id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
 }
 
-module.exports = { novoCachorro }
+export default { novoCachorro }
