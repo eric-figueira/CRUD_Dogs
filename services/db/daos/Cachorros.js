@@ -6,7 +6,7 @@ export async function insere(cachorro) {
 
     try {
         const sql = "INSERT INTO CRUD_Dogs.Cachorro (nome, raca, idade, peso, porte, cor, dono, cep, numeroCasa, complemento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const dados = [cachorro.nome, cachorro, raca, cachorro.idade, cachorro.peso, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.numeroCasa, cachorro.complemento];
+        const dados = [cachorro.nome, cachorro.raca, cachorro.idade, cachorro.peso, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.numeroCasa, cachorro.complemento];
         await conexao.query(sql, dados);
         return true;
     }
