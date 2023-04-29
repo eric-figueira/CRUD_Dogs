@@ -79,7 +79,7 @@ public class Janela extends JFrame {
     }
 
     public void updateArrayListCachorros() {
-        try { this.listaCachorros = Cachorros.getArrayListCachorros(); }
+        try { this.listaCachorros = Cachorros.getCachorros(); }
         catch (Exception e) { JOptionPane.showMessageDialog(null, e.getMessage(), "OCORREU UM ERRO!", JOptionPane.ERROR_MESSAGE); }
     }
 
