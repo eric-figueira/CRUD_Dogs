@@ -67,7 +67,7 @@ class Cachorro {
   }
 
   set porte(porte) {
-    if (porte === undefined || porte !== 'string' || porte === "")
+    if (porte === undefined || typeof porte !== 'string' || porte === "")
       throw ('Porte inválido!')
 
     if (porte.length > 15)
@@ -100,8 +100,8 @@ class Cachorro {
     if (cep === undefined || typeof cep !== 'string' || cep === "")
       throw ('CEP da residência do cachorro inválido!')
 
-    if (nome.length > 9)
-      nome = nome.substring(0, 9)
+    if (cep.length > 8)
+      cep = cep.substring(0, 8)
 
     this.#cep = cep
   }
@@ -117,7 +117,7 @@ class Cachorro {
   }
 
   set numeroCasa(numero) {
-    if (numero === undefined || typeof numero !== 'number' || isNaN(numero) || numero !== parseInt(numero) || id < 0)
+    if (numero === undefined || typeof numero !== 'number' || isNaN(numero) || numero !== parseInt(numero) || numero < 0)
       throw ('Número da casa do cachorro inválido!')
 
     this.#numeroCasa = numero
@@ -140,7 +140,12 @@ class Cachorro {
 
 function novoCachorro (id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
 {
-  return new Cachorro(id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
+  try {
+    return new Cachorro(id, nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso)
+  }
+  catch (erro) {
+    throw erro;
+  }
 }
 
 

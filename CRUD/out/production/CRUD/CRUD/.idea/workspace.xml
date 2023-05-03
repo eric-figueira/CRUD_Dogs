@@ -2,14 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="462b964e-ff32-4502-bff3-4a02ee580ca1" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/API/ClienteWS.java" beforeDir="false" afterPath="$PROJECT_DIR$/API/ClienteWS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Janela.java" beforeDir="false" afterPath="$PROJECT_DIR$/Janela.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/BDSQLServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/core/MeuPreparedStatement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/core/MeuResultSet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/core/MeuStatement.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/bd/daos/Cachorros.java" beforeDir="false" afterPath="$PROJECT_DIR$/bd/daos/Cachorros.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../services/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../services/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../services/program.bat" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

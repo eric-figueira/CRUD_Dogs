@@ -57,6 +57,7 @@ public class ClienteWS {
 
         try {
             String requestJson = toJson(objetoEnvio);
+            System.out.print(requestJson);
 
             URL url = new URL(urlWebService);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -71,6 +72,7 @@ public class ClienteWS {
             connection.setRequestProperty("Content-Length", Integer.toString(requestJson.length()));
 
             DataOutputStream stream = new DataOutputStream(connection.getOutputStream());
+            System.out.print(requestJson.getBytes("UTF-8"));
             stream.write(requestJson.getBytes("UTF-8"));
             stream.flush();
             stream.close();

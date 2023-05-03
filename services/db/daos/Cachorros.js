@@ -5,12 +5,15 @@ async function insere(cachorro) {
     if (conexao == null) return null;
 
     try {
-        const sql = "INSERT INTO CRUD_Dogs.Cachorro (nome, raca, idade, peso, porte, cor, dono, cep, numeroCasa, complemento) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const dados = [cachorro.nome, cachorro.raca, cachorro.idade, cachorro.peso, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.numeroCasa, cachorro.complemento];
+        const sql = "INSERT INTO CRUD_Dogs.Cachorro (nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        console.log(cachorro.dono)
+        console.log(cachorro.nome)
+        const dados = [cachorro.nome, cachorro.raca, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.complemento, cachorro.idade, cachorro.numeroCasa, cachorro.peso];
         await conexao.query(sql, dados);
         return true;
     }
     catch (erro) {
+        console.log(erro);
         return false;
     }
 }

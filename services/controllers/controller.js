@@ -24,10 +24,14 @@ async function inserir(req, res)
   let cachorro;
   try 
   {
-    cachorro = Cachorro.novoCachorro(0, req.body.nome, req.body.raca, req.body.idade, req.body.peso, req.body.porte, req.body.cor, req.body.dono, req.body.cep, req.body.numeroCasa, req.body.complemento);
+    console.log(req.body);
+    console.log(req.body.nome);
+    console.log(req.body.dono);
+    cachorro = Cachorro.novoCachorro(0, req.body.nome, req.body.raca, req.body.porte, req.body.cor, req.body.dono, req.body.cep, req.body.complemento, req.body.idade, req.body.numeroCasa, req.body.peso);
   }
-  catch 
+  catch (err)
   {
+    console.log(err)
     const erro = Comunicado.novo('TDE', 'Dados de tipos errados', 'Id, idade e número da casa devem ser números naturais positivos; nome, raça, porte, cor, dono, cep e complemento devem ser textos não vazios; e peso deve ser um número real positivo').object;
     return res.status(422).json(erro);
   }
@@ -67,7 +71,7 @@ async function atualizar(req, res)
   let cachorro;
   try 
   {
-    cachorro = Cachorro.novoCachorro(0, req.body.nome, req.body.raca, req.body.idade, req.body.peso, req.body.porte, req.body.cor, req.body.dono, req.body.cep, req.body.numeroCasa, req.body.complemento);
+    cachorro = Cachorro.novoCachorro(0, req.body.nome, req.body.raca, req.body.porte, req.body.cor, req.body.dono, req.body.cep, req.body.complemento, req.body.idade, req.body.numeroCasa, req.body.peso);
   }
   catch 
   {
