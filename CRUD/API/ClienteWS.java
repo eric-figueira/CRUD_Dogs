@@ -32,7 +32,6 @@ public class ClienteWS {
                 urlWebService = urlWebService + "/" + parametro.replaceAll(" ", "%20");
 
             URL url = new URL(urlWebService);
-            System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(15000);
@@ -41,7 +40,6 @@ public class ClienteWS {
             connection.connect();
 
             String responseJson = inputStreamToString(connection.getInputStream());
-            System.out.println(responseJson);
             connection.disconnect();
 
             return fromJson(responseJson, tipoObjetoRetorno);

@@ -18,21 +18,16 @@ async function inserir(req, res)
       || !req.body.numeroCasa || !req.body.complemento) 
   {
     const erro = Comunicado.novo('DdI', 'Dados inesperados', 'Não foram fornecidos exatamente as 10 informações esperadas de um cachorro (nome, raça, idade, peso, porte, cor, dono, CEP, número da casa e complemento)').object;
-    res.status(422).json(erro);
+    return res.status(422).json(erro);
   }
 
   let cachorro;
   try 
   {
-    console.log(req.body);
-    console.log(req.body.nome);
-    console.log(req.body.dono);
     cachorro = Cachorro.novoCachorro(0, req.body.nome, req.body.raca, req.body.porte, req.body.cor, req.body.dono, req.body.cep, req.body.complemento, req.body.idade, req.body.numeroCasa, req.body.peso);
-    console.log(cachorro);
   }
   catch (err)
   {
-    console.log(err)
     const erro = Comunicado.novo('TDE', 'Dados de tipos errados', 'Id, idade e número da casa devem ser números naturais positivos; nome, raça, porte, cor, dono, cep e complemento devem ser textos não vazios; e peso deve ser um número real positivo').object;
     return res.status(422).json(erro);
   }
@@ -66,7 +61,7 @@ async function atualizar(req, res)
       || !req.body.numeroCasa || !req.body.complemento) 
   {
     const erro = Comunicado.novo('DdI', 'Dados inesperados', 'Não foram fornecidos exatamente as 10 informações esperadas de um cachorro (nome, raça, idade, peso, porte, cor, dono, CEP, número da casa e complemento)').object;
-    res.status(422).json(erro);
+    return res.status(422).json(erro);
   }
 
   let cachorro;

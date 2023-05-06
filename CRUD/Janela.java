@@ -255,9 +255,7 @@ public class Janela extends JFrame {
                 {
                     // Precisamos pegar o cachorro a partir do ArrayList, e nao do banco de dados, pois
                     // não necessariamente haverá um cachorro com o id 0, 1, 2
-                    System.out.println(listaCachorros.getClass());
                     LinkedHashMap r = listaCachorros.get(posicaoCachorroAtual);
-                    System.out.println(r);
 
                     txtIdCachorro   .setText(r.get("id") + "");
                     txtNomeCachorro .setText(r.get("nome") + "");

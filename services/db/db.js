@@ -5,10 +5,6 @@ const getConexao = async () => {
     if (global.conexao && global.conexao.state !== 'disconnected')
         return global.conexao;
 
-    console.log(bdConfig.user);
-    console.log(bdConfig.database);
-    console.log(bdConfig.host);
-    console.log(bdConfig.password);
     const conexao = await mysql.createConnection(bdConfig);
     global.conexao = conexao;
     return conexao;

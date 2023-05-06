@@ -86,14 +86,14 @@ class Cachorro {
     this.#cor = cor
   }
 
-  set dono(nome) {
-    if (nome === undefined || typeof nome !== 'string' || nome === "")
+  set dono(dono) {
+    if (dono === undefined || typeof dono !== 'string' || dono === "")
       throw ('Nome do Dono do Cachorro inválido!')
 
-    if (nome.length > 30)
-      nome = nome.substring(0, 30)
+    if (dono.length > 30)
+      dono = dono.substring(0, 30)
 
-    this.#nome = nome
+    this.#dono = dono
   }
 
   set cep(cep) {

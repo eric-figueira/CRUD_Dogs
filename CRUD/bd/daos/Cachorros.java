@@ -68,7 +68,6 @@ public class Cachorros {
 
         try {
             cachorro = (ArrayList<LinkedHashMap>) ClienteWS.getObjeto(ArrayList.class, "http://localhost:3000/cachorros", idCachorro + "");
-            System.out.println(cachorro);
         }
         catch (Exception erro) {
             throw new Exception("ERRO AO BUSCAR POR CACHORRO! AAAAAA");

@@ -6,14 +6,11 @@ async function insere(cachorro) {
 
     try {
         const sql = "INSERT INTO CRUD_Dogs.Cachorro (nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        console.log(cachorro.dono)
-        console.log(cachorro.nome)
         const dados = [cachorro.nome, cachorro.raca, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.complemento, cachorro.idade, cachorro.numeroCasa, cachorro.peso];
         await conexao.query(sql, dados);
         return true;
     }
     catch (erro) {
-        console.log(erro);
         return false;
     }
 }
@@ -74,7 +71,6 @@ async function recuperaTodos() {
     try {
         const sql = "SELECT * FROM CRUD_Dogs.Cachorro";
         const [linhas] = await conexao.query(sql);
-        console.log(linhas)
         return linhas;
     }
     catch (erro) {
