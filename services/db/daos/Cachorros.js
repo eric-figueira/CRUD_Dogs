@@ -74,6 +74,7 @@ async function recuperaTodos() {
     try {
         const sql = "SELECT * FROM CRUD_Dogs.Cachorro";
         const [linhas] = await conexao.query(sql);
+        console.log(linhas)
         return linhas;
     }
     catch (erro) {

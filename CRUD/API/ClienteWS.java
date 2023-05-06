@@ -32,6 +32,7 @@ public class ClienteWS {
                 urlWebService = urlWebService + "/" + parametro.replaceAll(" ", "%20");
 
             URL url = new URL(urlWebService);
+            System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
             connection.setConnectTimeout(15000);
@@ -40,6 +41,7 @@ public class ClienteWS {
             connection.connect();
 
             String responseJson = inputStreamToString(connection.getInputStream());
+            System.out.println(responseJson);
             connection.disconnect();
 
             return fromJson(responseJson, tipoObjetoRetorno);
@@ -57,7 +59,7 @@ public class ClienteWS {
 
         try {
             String requestJson = toJson(objetoEnvio);
-            System.out.print(requestJson);
+            System.out.println(requestJson);
 
             URL url = new URL(urlWebService);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
@@ -72,7 +74,7 @@ public class ClienteWS {
             connection.setRequestProperty("Content-Length", Integer.toString(requestJson.length()));
 
             DataOutputStream stream = new DataOutputStream(connection.getOutputStream());
-            System.out.print(requestJson.getBytes("UTF-8"));
+            System.out.println(requestJson.getBytes("UTF-8"));
             stream.write(requestJson.getBytes("UTF-8"));
             stream.flush();
             stream.close();
@@ -180,6 +182,7 @@ public class ClienteWS {
             String responseJson = inputStreamToString(connection.getInputStream());
             connection.disconnect();
 
+            System.out.println(responseJson);
             return fromJson(responseJson, tipoObjetoRetorno);
         } catch (Exception erro) {
             erro.printStackTrace();

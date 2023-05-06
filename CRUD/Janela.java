@@ -21,7 +21,7 @@ public class Janela extends JFrame {
     protected Operacao operacaoAtual;
 
     // Lista de Cachorros
-    ArrayList<Cachorro> listaCachorros = new ArrayList<>();
+    ArrayList<LinkedHashMap> listaCachorros = new ArrayList<>();
     protected int posicaoCachorroAtual;
 
     // Labels
@@ -255,23 +255,25 @@ public class Janela extends JFrame {
                 {
                     // Precisamos pegar o cachorro a partir do ArrayList, e nao do banco de dados, pois
                     // não necessariamente haverá um cachorro com o id 0, 1, 2
-                    Cachorro r = listaCachorros.get(posicaoCachorroAtual);
+                    System.out.println(listaCachorros.getClass());
+                    LinkedHashMap r = listaCachorros.get(posicaoCachorroAtual);
+                    System.out.println(r);
 
-                    txtIdCachorro   .setText(r.getIdCachorro() + "");
-                    txtNomeCachorro .setText(r.getNome());
-                    txtRaca         .setText(r.getRaca());
-                    cbPorte         .setSelectedItem(r.getPorte());
-                    txtCor          .setText(r.getCor());
-                    txtNomeDono     .setText(r.getDono());
-                    txtCep          .setText(r.getCep());
-                    txtComplemento  .setText(r.getComplemento());
-                    spIdadeCachorro .setValue(r.getIdade());
-                    spNumero        .setValue(r.getNumeroCasa());
-                    spPeso          .setValue(r.getPeso());
+                    txtIdCachorro   .setText(r.get("id") + "");
+                    txtNomeCachorro .setText(r.get("nome") + "");
+                    txtRaca         .setText(r.get("raca") + "");
+                    cbPorte         .setSelectedItem(r.get("porte"));
+                    txtCor          .setText(r.get("cor") + "");
+                    txtNomeDono     .setText(r.get("dono") + "");
+                    txtCep          .setText(r.get("cep") + "");
+                    txtComplemento  .setText(r.get("complemento") + "");
+                    spIdadeCachorro .setValue(r.get("idade"));
+                    spNumero        .setValue(r.get("numeroCasa"));
+                    spPeso          .setValue(r.get("peso"));
 
                     // Mostrar logradouro no textarea
                     // Por algum motivo, o CEP era salvo com espaço no final, o que fazia a requisição da api retornar erro
-                    MostrarLogradouro(r.getCep().trim());
+                    MostrarLogradouro(r.get("cep") + "".trim());
 
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), "ERRO AO ACESSAR CACHORRO!", JOptionPane.ERROR_MESSAGE);
@@ -433,7 +435,7 @@ public class Janela extends JFrame {
                                 JOptionPane.WARNING_MESSAGE);
                         return;
                     }
-                    Cachorro c = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText()));
+                    LinkedHashMap c = Cachorros.getCachorro(Integer.parseInt(txtIdCachorro.getText())).get(0);
                     posicaoCachorroAtual = listaCachorros.indexOf(c);
                 }
 

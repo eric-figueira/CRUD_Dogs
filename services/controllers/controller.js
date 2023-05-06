@@ -28,6 +28,7 @@ async function inserir(req, res)
     console.log(req.body.nome);
     console.log(req.body.dono);
     cachorro = Cachorro.novoCachorro(0, req.body.nome, req.body.raca, req.body.porte, req.body.cor, req.body.dono, req.body.cep, req.body.complemento, req.body.idade, req.body.numeroCasa, req.body.peso);
+    console.log(cachorro);
   }
   catch (err)
   {

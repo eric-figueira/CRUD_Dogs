@@ -2,6 +2,7 @@ package CRUD.bd.daos;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 
 import CRUD.API.ClienteWS;
 import CRUD.bd.dbos.Cachorro;
@@ -62,11 +63,12 @@ public class Cachorros {
         }
     }
 
-    public static Cachorro getCachorro(int idCachorro) throws Exception {
-        Cachorro cachorro = null;
+    public static ArrayList<LinkedHashMap> getCachorro(int idCachorro) throws Exception {
+        ArrayList<LinkedHashMap> cachorro = null;
 
         try {
-            cachorro = (Cachorro) ClienteWS.getObjeto(Cachorro.class, "http://localhost:3000/cachorros/", idCachorro + "");
+            cachorro = (ArrayList<LinkedHashMap>) ClienteWS.getObjeto(ArrayList.class, "http://localhost:3000/cachorros", idCachorro + "");
+            System.out.println(cachorro);
         }
         catch (Exception erro) {
             throw new Exception("ERRO AO BUSCAR POR CACHORRO! AAAAAA");
@@ -74,10 +76,10 @@ public class Cachorros {
         return cachorro;
     }
 
-    public static ArrayList<Cachorro> getCachorros() throws Exception {
-        ArrayList<Cachorro> cachorros = null;
+    public static ArrayList<LinkedHashMap> getCachorros() throws Exception {
+        ArrayList<LinkedHashMap> cachorros = null;
         try {
-            cachorros = (ArrayList<Cachorro>) ClienteWS.getObjetos(ArrayList.class, "http://localhost:3000/cachorros/");
+            cachorros = (ArrayList<LinkedHashMap>) ClienteWS.getObjetos(ArrayList.class, "http://localhost:3000/cachorros");
         }
         catch (Exception erro) {
             throw new Exception("ERRO AO BUSCAR OS CACHORROS! AAAAA");
