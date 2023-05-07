@@ -11,7 +11,8 @@ public class Cachorros {
     public static boolean isCadastrado(int id) throws Exception {
         boolean retorno = false;
         try {
-            Cachorro c = (Cachorro) ClienteWS.getObjeto(Cachorro.class, "http://localhost:3000/cachorros/", id + "");
+            ArrayList<LinkedHashMap> a = (ArrayList<LinkedHashMap>) ClienteWS.getObjeto(ArrayList.class, "http://localhost:3000/cachorros", id + "");
+            LinkedHashMap c = a.get(0);
             if (c != null)
                 retorno = true;
         }
@@ -26,7 +27,7 @@ public class Cachorros {
             throw new Exception("CACHORRO É NULO, MALIGNO!");
         try {
             try {
-                ClienteWS.postObjeto(Cachorro.class, cachorro,"http://localhost:3000/cachorros");
+                ClienteWS.postObjeto(LinkedHashMap.class, cachorro,"http://localhost:3000/cachorros");
             }
             catch(Exception erro) {
                 throw new Exception(erro.getMessage());
@@ -43,7 +44,7 @@ public class Cachorros {
         if (!isCadastrado(cachorro.getIdCachorro()))
             throw new Exception("CACHORRO NÃO ESTÁ CADASTRADO, PESTE!");
         try {
-            ClienteWS.putObjeto(cachorro, Cachorro.class, "http://localhost:3000/cachorros", cachorro.getIdCachorro() + "");
+            ClienteWS.putObjeto(cachorro, LinkedHashMap.class, "http://localhost:3000/cachorros", cachorro.getIdCachorro() + "");
         }
         catch (Exception erro) {
             throw new Exception("ERRO AO ATUALIZAR CACHORRO! AAAAA");
@@ -56,7 +57,7 @@ public class Cachorros {
         if (!isCadastrado(cachorro.getIdCachorro()))
             throw new Exception("CACHORRO NÃO ESTÁ CADASTRADO, CRIANÇA!");
         try {
-            ClienteWS.deleteObjeto(Cachorro.class, "http://localhost:3000/cachorros", cachorro.getIdCachorro() + "");
+            ClienteWS.deleteObjeto("http://localhost:3000/cachorros", cachorro.getIdCachorro() + "");
         }
         catch (Exception erro) {
             throw new Exception("ERRO AO EXCLUIR CACHORRO! AI QUE ÓDIO!");

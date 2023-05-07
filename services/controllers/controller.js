@@ -10,7 +10,8 @@ const Comunicado = require('../models/comunicado');
 
 async function inserir(req, res) 
 {
-  if (Object.values(req.body).length != 10 
+  if (Object.values(req.body).length != 11
+      || !req.body.idCachorro  
       || !req.body.nome  || !req.body.raca 
       || !req.body.idade || !req.body.peso 
       || !req.body.porte || !req.body.cor 
@@ -40,6 +41,7 @@ async function inserir(req, res)
   }
 
   if (ret == false) {
+    console.log("aqui");
     const erro = Comunicado.novo('CJE', 'Cachorro já existe', 'Já há cachorro cadastrado com o id informado').object;
     return res.status(409).json(erro);
   }
@@ -53,7 +55,8 @@ async function inserir(req, res)
 
 async function atualizar(req, res) 
 {
-  if (Object.values(req.body).length != 10 
+  if (Object.values(req.body).length != 11
+      || !req.body.idCachorro
       || !req.body.nome  || !req.body.raca 
       || !req.body.idade || !req.body.peso 
       || !req.body.porte || !req.body.cor 
@@ -61,6 +64,7 @@ async function atualizar(req, res)
       || !req.body.numeroCasa || !req.body.complemento) 
   {
     const erro = Comunicado.novo('DdI', 'Dados inesperados', 'Não foram fornecidos exatamente as 10 informações esperadas de um cachorro (nome, raça, idade, peso, porte, cor, dono, CEP, número da casa e complemento)').object;
+    console.log(req.body);
     return res.status(422).json(erro);
   }
 
@@ -76,8 +80,7 @@ async function atualizar(req, res)
   }
 
   const id = req.params.id
-
-  let ret = await Livros.recupereUm(codigo);
+  let ret = await recuperaUm(id);
 
   if (ret===null)
   {
@@ -97,7 +100,8 @@ async function atualizar(req, res)
       return res.status(404).json(erro);
   }
 
-  ret = await atualiza(cachorro)
+  cachorro.id = Number(id);
+  ret = await atualiza(cachorro);
 
   if (ret===null)
   {
@@ -163,7 +167,6 @@ async function deletar(req, res)
       const  erro = Comunicado.novo('FNC','Falha no comando SQL','O comando SQL apresenta algum erro').object;
       return res.status(409).json(erro);
   }
-
 
   const sucesso = Comunicado.novo('RBS','Remoção bem sucedida','O cachorro foi removido com sucesso').object;
   return res.status(200).json(sucesso);

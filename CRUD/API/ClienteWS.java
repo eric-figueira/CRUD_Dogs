@@ -128,8 +128,7 @@ public class ClienteWS {
         return objetoRetorno;
     }
 
-    public static Object deleteObjeto(Class tipoObjetoRetorno,
-            String urlWebService,
+    public static Object deleteObjeto(String urlWebService,
             String... parametros) {
 
         Object objetoRetorno = null;
@@ -147,10 +146,10 @@ public class ClienteWS {
             // connection.setRequestProperty("senha", "suasenha");
             connection.setRequestProperty("Content-Type", "application/json");
             connection.setRequestProperty("Accept", "application/json");
+            connection.connect();
 
             String responseJson = inputStreamToString(connection.getInputStream());
             connection.disconnect();
-            objetoRetorno = fromJson(responseJson, tipoObjetoRetorno);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -180,7 +179,6 @@ public class ClienteWS {
             String responseJson = inputStreamToString(connection.getInputStream());
             connection.disconnect();
 
-            System.out.println(responseJson);
             return fromJson(responseJson, tipoObjetoRetorno);
         } catch (Exception erro) {
             erro.printStackTrace();

@@ -21,12 +21,15 @@ async function atualiza(cachorro) {
         return null;
 
     try {
+        console.log(cachorro.nome);
+        console.log(cachorro.id + "id");
         const sql = "UPDATE CRUD_Dogs.Cachorro SET nome = ?, raca = ?, idade = ?, peso = ?, porte = ?, cor = ?, dono = ?, cep = ?, numeroCasa = ?, complemento = ? WHERE id = ?";
-        const dados = [cachorro.nome, cachorro, raca, cachorro.idade, cachorro.peso, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.numeroCasa, cachorro.complemento, cachorro.id];
+        const dados = [cachorro.nome, cachorro. raca, cachorro.idade, cachorro.peso, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.numeroCasa, cachorro.complemento, cachorro.id];
         await conexao.query(sql, dados);
         return true;
     }
     catch (erro) {
+        console.log(erro);
         return false;
     }
 }
