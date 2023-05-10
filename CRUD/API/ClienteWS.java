@@ -34,7 +34,7 @@ public class ClienteWS {
             URL url = new URL(urlWebService);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setConnectTimeout(15000);
+            connection.setConnectTimeout(1000);
             // connection.setRequestProperty("login", "seulogin");
             // connection.setRequestProperty("password", "suasenha");
             connection.connect();
@@ -64,7 +64,7 @@ public class ClienteWS {
             connection.setRequestMethod("POST");
             connection.setDoOutput(true);
             connection.setUseCaches(false);
-            connection.setConnectTimeout(15000);
+            connection.setConnectTimeout(1000);
             // connection.setRequestProperty("login", "seulogin");
             // connection.setRequestProperty("senha", "suasenha");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -105,7 +105,7 @@ public class ClienteWS {
             connection.setRequestMethod("PUT");
             connection.setDoOutput(true);
             connection.setUseCaches(false);
-            connection.setConnectTimeout(15000);
+            connection.setConnectTimeout(1000);
             // connection.setRequestProperty("login", "seulogin");
             // connection.setRequestProperty("senha", "suasenha");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -141,7 +141,7 @@ public class ClienteWS {
             connection.setRequestMethod("DELETE");
             connection.setDoOutput(true);
             connection.setUseCaches(false);
-            connection.setConnectTimeout(15000);
+            connection.setConnectTimeout(1000);
             // connection.setRequestProperty("login", "seulogin");
             // connection.setRequestProperty("senha", "suasenha");
             connection.setRequestProperty("Content-Type", "application/json");
@@ -171,7 +171,7 @@ public class ClienteWS {
             URL url = new URL(urlWebService);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.setRequestMethod("GET");
-            connection.setConnectTimeout(15000);
+            connection.setConnectTimeout(1000);
             // connection.setRequestProperty("login", "seulogin");
             // connection.setRequestProperty("password", "suasenha");
             connection.connect();
