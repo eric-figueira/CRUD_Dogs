@@ -5,7 +5,7 @@ async function insere(cachorro) {
     if (conexao == null) return null;
 
     try {
-        const sql = "INSERT INTO CRUD_Dogs.Cachorro (nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        const sql = "INSERT INTO Cachorro (nome, raca, porte, cor, dono, cep, complemento, idade, numeroCasa, peso) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         const dados = [cachorro.nome, cachorro.raca, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.complemento, cachorro.idade, cachorro.numeroCasa, cachorro.peso];
         await conexao.query(sql, dados);
         return true;
@@ -21,15 +21,12 @@ async function atualiza(cachorro) {
         return null;
 
     try {
-        console.log(cachorro.nome);
-        console.log(cachorro.id + "id");
-        const sql = "UPDATE CRUD_Dogs.Cachorro SET nome = ?, raca = ?, idade = ?, peso = ?, porte = ?, cor = ?, dono = ?, cep = ?, numeroCasa = ?, complemento = ? WHERE id = ?";
+        const sql = "UPDATE Cachorro SET nome = ?, raca = ?, idade = ?, peso = ?, porte = ?, cor = ?, dono = ?, cep = ?, numeroCasa = ?, complemento = ? WHERE id = ?";
         const dados = [cachorro.nome, cachorro. raca, cachorro.idade, cachorro.peso, cachorro.porte, cachorro.cor, cachorro.dono, cachorro.cep, cachorro.numeroCasa, cachorro.complemento, cachorro.id];
         await conexao.query(sql, dados);
         return true;
     }
     catch (erro) {
-        console.log(erro);
         return false;
     }
 }
@@ -40,7 +37,7 @@ async function deleta(id) {
         return null;
 
     try {
-        const sql = "DELETE FROM CRUD_Dogs.Cachorro WHERE id = ?";
+        const sql = "DELETE FROM Cachorro WHERE id = ?";
         const dados = [id];
         await conexao.query(sql, dados);
         return true;
@@ -56,7 +53,7 @@ async function recuperaUm(id) {
         return null;
 
     try {
-        const sql = "SELECT * FROM CRUD_Dogs.Cachorro WHERE id = ?";
+        const sql = "SELECT * FROM Cachorro WHERE id = ?";
         const dados = [id];
         const [linhas] = await conexao.query(sql, dados);
         return linhas;
@@ -72,7 +69,7 @@ async function recuperaTodos() {
         return null;
 
     try {
-        const sql = "SELECT * FROM CRUD_Dogs.Cachorro";
+        const sql = "SELECT * FROM Cachorro";
         const [linhas] = await conexao.query(sql);
         return linhas;
     }
